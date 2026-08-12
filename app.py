@@ -3,7 +3,7 @@ import time
 import streamlit as st
 import pandas as pd
 
-st.set_page_config(page_title="TOX-PREP 3.1", page_icon="⚗️", layout="wide")
+st.set_page_config(page_title="TOX-PREP 3.2", page_icon="⚗️", layout="wide")
 
 st.markdown("""
 <style>
@@ -190,7 +190,7 @@ box-shadow:0 0 0 10px rgba(231,155,60,.12),0 10px 20px rgba(0,0,0,.10);animation
 .bubble{position:absolute;width:12px;height:12px;border-radius:50%;background:rgba(255,255,255,.72);animation:bubbleUp 2.6s linear infinite}
 @keyframes bubbleUp{0%{transform:translateY(80px);opacity:0}20%{opacity:.8}100%{transform:translateY(-90px);opacity:0}}
 
-/* --- TOX-PREP 3.1 virtual laboratory --- */
+/* --- TOX-PREP 3.2 virtual laboratory --- */
 .virtual-lab{position:relative;min-height:520px;border-radius:26px;border:1px solid #c8d7e5;
 background:linear-gradient(180deg,#fbfdff 0%,#edf4fb 64%,#dbe7f0 64%,#c6d5e2 100%);
 overflow:hidden;margin:1rem 0;box-shadow:inset 0 -16px 38px rgba(28,60,94,.08),0 8px 20px rgba(20,50,90,.06)}
@@ -220,7 +220,7 @@ overflow:hidden;margin:1rem 0;box-shadow:inset 0 -16px 38px rgba(28,60,94,.08),0
 .material-card{padding:.85rem;border:1px solid #d9e4ee;border-radius:14px;background:white;min-height:90px;text-align:center;box-shadow:0 4px 10px rgba(0,0,0,.06)}
 .material-card b{display:block;color:#173d6d;margin-top:.25rem}
 
-/* --- TOX-PREP 3.1 · scientific lab scene --- */
+/* --- TOX-PREP 3.2 · scientific lab scene --- */
 .lab31{position:relative;min-height:620px;border-radius:26px;border:1px solid #c7d8e8;
 background:linear-gradient(180deg,#fcfeff 0%,#f4f9fd 72%,#dbe7f0 72%,#c9d7e3 100%);
 overflow:hidden;margin:1rem 0 1.2rem;box-shadow:0 8px 22px rgba(25,60,95,.07)}
@@ -260,6 +260,28 @@ font:800 14px monospace;color:#173e55;display:flex;align-items:center;justify-co
 .labelbottle:before{content:"SOLUCIÓN\A % p/v\A Fecha • Grupo";white-space:pre;position:absolute;left:10px;right:10px;top:47px;background:#eef5fb;border:1px solid #bdd0e0;border-radius:6px;padding:8px 3px;font-size:.7rem;line-height:1.4}
 .process31{display:grid;grid-template-columns:repeat(6,1fr);gap:8px;margin:.5rem 0 1rem}
 .p31{padding:.72rem .45rem;text-align:center;border-radius:12px;background:#f7fbfe;border:1px solid #d2dfeb;color:#234c75;font-weight:800;font-size:.86rem}
+
+/* --- TOX-PREP 3.2 shared scientific identity --- */
+.master-scene{position:relative;min-height:600px;border-radius:26px;border:1px solid #c7d8e8;
+background:linear-gradient(180deg,#fcfeff 0%,#f4f9fd 72%,#dbe7f0 72%,#c9d7e3 100%);
+overflow:hidden;margin:1rem 0 1.15rem;box-shadow:0 8px 22px rgba(25,60,95,.07)}
+.ms-title{position:absolute;left:30px;top:22px;font-size:1.42rem;font-weight:900;color:#0e3769}
+.ms-sub{position:absolute;left:30px;top:63px;color:#60758b;font-weight:650}
+.ms-station{position:absolute;bottom:88px;text-align:center;color:#173e6d;font-weight:900}
+.ms-cap{display:inline-block;background:#fff;border:1px solid #c8d8e6;border-radius:12px;padding:8px 13px;
+box-shadow:0 5px 12px rgba(20,50,80,.08);margin-bottom:14px}
+.ms-arrow{position:absolute;font-size:3.2rem;color:#86a8c5;top:315px;animation:arrowpulse 1.7s ease-in-out infinite}
+.ms-process{display:grid;grid-template-columns:repeat(6,1fr);gap:8px;margin:.5rem 0 1rem}
+.ms-step{padding:.72rem .45rem;text-align:center;border-radius:12px;background:#f7fbfe;border:1px solid #d2dfeb;color:#234c75;font-weight:800;font-size:.86rem}
+.tube{width:88px;height:180px;border:5px solid #44627a;border-radius:10px 10px 28px 28px;background:rgba(255,255,255,.8);position:relative;overflow:hidden}
+.tube .vliquid{height:45%}
+.stock31{width:130px;height:170px;border:5px solid #3f5c74;border-radius:18px 18px 28px 28px;background:rgba(255,255,255,.82);position:relative;overflow:hidden}
+.stock31:before{content:"";position:absolute;left:26px;top:-1px;width:68px;height:34px;background:#354f66;border-radius:8px}
+.pearsonX{position:absolute;width:230px;height:12px;background:#5b89ad;border-radius:10px;transform-origin:left center;opacity:.72}
+.target-circle{position:absolute;width:165px;height:165px;border-radius:50%;background:radial-gradient(circle,#ffe2ad 0%,#e9a24c 62%,#cf7f28 100%);
+box-shadow:0 0 0 12px rgba(231,155,60,.12),0 10px 20px rgba(0,0,0,.10)}
+.checkcard{position:absolute;padding:1rem 1.1rem;border-radius:16px;background:#fff;border:1px solid #c9d7e4;
+box-shadow:0 5px 13px rgba(0,0,0,.08);font-weight:850;color:#173e6d;line-height:1.5}
 </style>
 """, unsafe_allow_html=True)
 
@@ -593,6 +615,99 @@ def mission2_master_scene():
 
     st.info("📌 **Principio técnico:** en una preparación % p/v, el volumen indicado corresponde al **volumen final de la solución**, no al volumen de solvente que se agrega inicialmente.")
 
+
+def master_scene(level):
+    if level==2:
+        return  # Misión 2 usa su escena maestra específica.
+
+    if level==3:
+        st.markdown("""
+        <div class="master-scene">
+          <div class="ms-title">🧪 Preparación volumétrica · % v/v</div>
+          <div class="ms-sub">Medir el componente líquido → transferir → aforar → homogeneizar → rotular.</div>
+          <div class="ms-station" style="left:6%;width:170px"><div class="ms-cap">1 · MEDIR</div><div class="graduated"><div class="vliquid orange"></div></div></div>
+          <div class="ms-arrow" style="left:25%">➜</div>
+          <div class="ms-station" style="left:34%;width:180px"><div class="ms-cap">2 · TRANSFERIR</div><div class="micropip" style="left:-5px;top:70px"></div></div>
+          <div class="ms-arrow" style="left:53%">➜</div>
+          <div class="ms-station" style="right:17%;width:175px"><div class="ms-cap">3 · AFORAR</div><div class="flask31"><div class="flaskliq"></div><div class="drop31"></div><div class="meniscus-note">Menisco alineado con la marca.</div></div></div>
+          <div class="ms-arrow" style="right:5%">➜</div>
+        </div>
+        <div class="ms-process"><div class="ms-step">🧪 Medir</div><div class="ms-step">💧 Transferir</div><div class="ms-step">⚗️ Aforar</div><div class="ms-step">🔄 Homogeneizar</div><div class="ms-step">🏷️ Rotular</div><div class="ms-step">✅ Verificar</div></div>
+        """,unsafe_allow_html=True)
+
+    elif level in (4,5):
+        st.markdown("""
+        <div class="master-scene">
+          <div class="ms-title">🧪 Dilución desde solución madre</div>
+          <div class="ms-sub">Identificar C₁, C₂ y V₂ → tomar V₁ → transferir → aforar → homogeneizar.</div>
+          <div class="ms-station" style="left:5%;width:145px"><div class="ms-cap">1 · C₁</div><div class="stock31"><div class="vliquid"></div></div></div>
+          <div class="ms-arrow" style="left:22%">➜</div>
+          <div class="ms-station" style="left:32%;width:210px"><div class="ms-cap">2 · TOMAR V₁</div><div class="micropip" style="left:-5px;top:70px"></div></div>
+          <div class="ms-arrow" style="left:53%">➜</div>
+          <div class="ms-station" style="right:13%;width:180px"><div class="ms-cap">3 · COMPLETAR V₂</div><div class="flask31"><div class="flaskliq"></div><div class="drop31"></div></div></div>
+        </div>
+        <div class="ms-process"><div class="ms-step">📌 Identificar C₁</div><div class="ms-step">🎯 Definir C₂</div><div class="ms-step">🧮 Calcular V₁</div><div class="ms-step">💧 Pipetear</div><div class="ms-step">⚗️ Aforar</div><div class="ms-step">🏷️ Rotular</div></div>
+        """,unsafe_allow_html=True)
+
+    elif level==6:
+        st.markdown("""
+        <div class="master-scene">
+          <div class="ms-title">🧪 Dilución seriada</div>
+          <div class="ms-sub">Cada tubo se prepara a partir de una alícuota de la dilución inmediatamente anterior.</div>
+          <div class="ms-station" style="left:5%;width:110px"><div class="ms-cap">MUESTRA</div><div class="tube"><div class="vliquid"></div></div></div>
+          <div class="ms-arrow" style="left:22%">➜</div>
+          <div class="ms-station" style="left:36%;width:110px"><div class="ms-cap">1:10</div><div class="tube"><div class="vliquid green"></div></div></div>
+          <div class="ms-arrow" style="left:53%">➜</div>
+          <div class="ms-station" style="right:18%;width:110px"><div class="ms-cap">1:100</div><div class="tube"><div class="vliquid orange"></div></div></div>
+        </div>
+        <div class="ms-process"><div class="ms-step">🧪 Muestra</div><div class="ms-step">💧 Tomar alícuota</div><div class="ms-step">➕ Diluyente</div><div class="ms-step">🔄 Mezclar</div><div class="ms-step">💧 Nueva alícuota</div><div class="ms-step">📉 Factor acumulado</div></div>
+        """,unsafe_allow_html=True)
+
+    elif level==7:
+        st.markdown("""
+        <div class="master-scene">
+          <div class="ms-title">🧪 Cuadrado de Pearson · Mezcla de concentraciones</div>
+          <div class="ms-sub">Dos soluciones de distinta concentración se combinan en proporciones calculadas para alcanzar un objetivo.</div>
+          <div class="ms-station" style="left:4%;width:140px"><div class="ms-cap">ALTA</div><div class="stock31"><div class="vliquid"></div></div></div>
+          <div class="ms-station" style="left:24%;width:140px"><div class="ms-cap">BAJA</div><div class="stock31"><div class="vliquid green"></div></div></div>
+          <div class="pearsonX" style="left:37%;top:240px;transform:rotate(18deg)"></div>
+          <div class="pearsonX" style="left:37%;top:290px;transform:rotate(-18deg);background:#4fa888"></div>
+          <div class="target-circle" style="right:18%;top:215px"></div>
+          <div class="stir2" style="right:22%;top:250px">↻</div>
+          <div class="vlabel" style="right:13%;bottom:105px">CONCENTRACIÓN OBJETIVO</div>
+        </div>
+        <div class="ms-process"><div class="ms-step">⬆️ Concentración alta</div><div class="ms-step">⬇️ Concentración baja</div><div class="ms-step">✖️ Diferencias diagonales</div><div class="ms-step">📐 Proporción</div><div class="ms-step">🧪 Convertir a volumen</div><div class="ms-step">✅ Verificar</div></div>
+        """,unsafe_allow_html=True)
+
+    elif level==8:
+        st.markdown("""
+        <div class="master-scene">
+          <div class="ms-title">🧪 Corrección por pureza</div>
+          <div class="ms-sub">La masa calculada debe corregirse cuando el reactivo comercial no es 100 % puro.</div>
+          <div class="checkcard" style="left:6%;top:220px">MASA PURA<br>REQUERIDA</div>
+          <div class="ms-arrow" style="left:29%">➜</div>
+          <div class="checkcard" style="left:42%;top:220px">÷ FRACCIÓN<br>DE PUREZA</div>
+          <div class="ms-arrow" style="left:64%">➜</div>
+          <div class="balance3" style="right:7%;bottom:90px"></div>
+          <div class="vlabel" style="right:4%;bottom:245px">MASA REAL A PESAR</div>
+        </div>
+        <div class="ms-process"><div class="ms-step">📄 Revisar pureza</div><div class="ms-step">🧮 Convertir % a fracción</div><div class="ms-step">➗ Corregir masa</div><div class="ms-step">⚖️ Pesar</div><div class="ms-step">🧾 Registrar</div><div class="ms-step">✅ Verificar</div></div>
+        """,unsafe_allow_html=True)
+
+    elif level in (9,10):
+        st.markdown("""
+        <div class="master-scene">
+          <div class="ms-title">🧪 Control final de preparación</div>
+          <div class="ms-sub">Una solución correcta exige cálculo, técnica, verificación y documentación.</div>
+          <div class="ms-station" style="left:7%;width:170px"><div class="ms-cap">PREPARAR</div><div class="flask31"><div class="flaskliq"></div></div></div>
+          <div class="ms-arrow" style="left:31%">➜</div>
+          <div class="checkcard" style="left:43%;top:220px">✓ CONCENTRACIÓN<br>✓ VOLUMEN FINAL<br>✓ UNIDADES<br>✓ HOMOGENEIDAD</div>
+          <div class="ms-arrow" style="left:67%">➜</div>
+          <div class="labelbottle" style="position:absolute;right:8%;bottom:95px"></div>
+        </div>
+        <div class="ms-process"><div class="ms-step">🧮 Calcular</div><div class="ms-step">🧪 Preparar</div><div class="ms-step">✅ Verificar</div><div class="ms-step">🔄 Homogeneizar</div><div class="ms-step">🏷️ Rotular</div><div class="ms-step">🧠 Interpretar</div></div>
+        """,unsafe_allow_html=True)
+
 def virtual_lab_intro(level):
     if level not in (2,3,4):
         return
@@ -727,7 +842,7 @@ def prev_next():
         goto(st.session_state.level+1)
 
 if not st.session_state.started:
-    st.markdown('<div class="hero"><h1>⚗️ TOX-PREP 3.1</h1><p>Simulador veterinario de soluciones, diluciones y cálculos aplicados a Toxicología</p></div>',unsafe_allow_html=True)
+    st.markdown('<div class="hero"><h1>⚗️ TOX-PREP 3.2</h1><p>Simulador veterinario de soluciones, diluciones y cálculos aplicados a Toxicología</p></div>',unsafe_allow_html=True)
     st.markdown('<div class="route">INTERPRETAR → CALCULAR → PREPARAR → VERIFICAR → ROTULAR → CONTEXTO TOXICOLÓGICO</div>',unsafe_allow_html=True)
     cols=st.columns(5)
     for c,(m,ls) in zip(cols,MODULES.items()):
@@ -743,7 +858,7 @@ if not st.session_state.started:
             st.warning("Escriba un nombre.")
     st.stop()
 
-st.markdown('<div class="hero"><h1>⚗️ TOX-PREP 3.1</h1><p>Laboratorio virtual veterinario de preparación aplicada a Toxicología</p></div>',unsafe_allow_html=True)
+st.markdown('<div class="hero"><h1>⚗️ TOX-PREP 3.2</h1><p>Laboratorio virtual veterinario de preparación aplicada a Toxicología</p></div>',unsafe_allow_html=True)
 c1,c2,c3=st.columns([5,1,1])
 c1.progress(st.session_state.level/TOTAL,text=f"Misión {st.session_state.level}/{TOTAL}")
 c2.metric("Puntaje",f"{st.session_state.score}/100")
@@ -756,13 +871,18 @@ lab_animation(L)
 calc_guide(L)
 if L==1:
     unit_converter()
-if L in (2,3,4):
-    if L==2:
-        mission2_master_scene()
-    else:
-        virtual_lab_intro(L)
+if L==2:
+    mission2_master_scene()
     material_ok=material_selector(L)
     simulation_ok=interactive_steps(L)
+elif L in (3,4):
+    master_scene(L)
+    material_ok=material_selector(L)
+    simulation_ok=interactive_steps(L)
+elif L>=5:
+    master_scene(L)
+    material_ok=True
+    simulation_ok=True
 else:
     material_ok=True
     simulation_ok=True
@@ -995,4 +1115,4 @@ elif L==10:
         st.button("Repetir laboratorio",on_click=reset,type="primary")
 
 st.divider()
-st.caption("TOX-PREP 3.1 · Recurso educativo para medicina veterinaria y toxicología. No sustituye protocolos clínicos, fichas técnicas, evaluación del paciente ni normativa institucional.")
+st.caption("TOX-PREP 3.2 · Recurso educativo para medicina veterinaria y toxicología. No sustituye protocolos clínicos, fichas técnicas, evaluación del paciente ni normativa institucional.")
