@@ -3,7 +3,7 @@ import time
 import streamlit as st
 import pandas as pd
 
-st.set_page_config(page_title="TOX-PREP 2.5", page_icon="⚗️", layout="wide")
+st.set_page_config(page_title="TOX-PREP 3.0", page_icon="⚗️", layout="wide")
 
 st.markdown("""
 <style>
@@ -189,6 +189,36 @@ box-shadow:0 0 0 10px rgba(231,155,60,.12),0 10px 20px rgba(0,0,0,.10);animation
 @keyframes mergePulse{0%,100%{transform:scale(.96)}50%{transform:scale(1.04)}}
 .bubble{position:absolute;width:12px;height:12px;border-radius:50%;background:rgba(255,255,255,.72);animation:bubbleUp 2.6s linear infinite}
 @keyframes bubbleUp{0%{transform:translateY(80px);opacity:0}20%{opacity:.8}100%{transform:translateY(-90px);opacity:0}}
+
+/* --- TOX-PREP 3.0 virtual laboratory --- */
+.virtual-lab{position:relative;min-height:520px;border-radius:26px;border:1px solid #c8d7e5;
+background:linear-gradient(180deg,#fbfdff 0%,#edf4fb 64%,#dbe7f0 64%,#c6d5e2 100%);
+overflow:hidden;margin:1rem 0;box-shadow:inset 0 -16px 38px rgba(28,60,94,.08),0 8px 20px rgba(20,50,90,.06)}
+.vtitle{position:absolute;top:22px;left:28px;font-size:1.4rem;font-weight:900;color:#12315e}
+.vsubtitle{position:absolute;top:62px;left:28px;color:#62768c;font-weight:700}
+.vbench{position:absolute;left:0;right:0;bottom:0;height:82px;background:linear-gradient(#d7e2eb,#bac9d6);border-top:2px solid #aabac8}
+.beaker{position:absolute;width:150px;height:145px;border:5px solid #405d75;border-top:0;border-radius:0 0 24px 24px;background:rgba(255,255,255,.72);bottom:80px;overflow:hidden}
+.beaker:before{content:"";position:absolute;left:15px;right:15px;top:30px;border-top:2px solid rgba(64,93,117,.25)}
+.volflask{position:absolute;width:125px;height:185px;border:5px solid #35536d;border-radius:0 0 55px 55px;background:rgba(255,255,255,.72);bottom:80px;overflow:visible}
+.volflask:before{content:"";position:absolute;width:42px;height:70px;border:5px solid #35536d;border-bottom:0;left:36px;top:-68px;background:rgba(255,255,255,.9)}
+.volflask:after{content:"";position:absolute;width:52px;border-top:3px solid #d44d4d;left:31px;top:-24px}
+.graduated{position:absolute;width:95px;height:220px;border:5px solid #3c5b74;border-radius:10px 10px 20px 20px;background:rgba(255,255,255,.78);bottom:80px;overflow:hidden}
+.graduated:after{content:"";position:absolute;left:12px;top:16px;width:38px;height:170px;background:repeating-linear-gradient(to bottom,transparent 0,transparent 12px,#7e94aa 13px,#7e94aa 14px)}
+.vliquid{position:absolute;left:0;right:0;bottom:0;height:18%;background:linear-gradient(#75bad8,#378db4);animation:vfill 5s ease-in-out infinite}
+.vliquid.green{background:linear-gradient(#7bc8ac,#319071)} .vliquid.orange{background:linear-gradient(#f3be6b,#dc882c)}
+@keyframes vfill{0%,12%{height:12%}50%,82%{height:72%}100%{height:30%}}
+.micropip{position:absolute;width:230px;height:24px;background:linear-gradient(90deg,#c5d6e5,#f8fbfd);border:4px solid #45637b;border-radius:12px;transform:rotate(12deg);animation:vpipe 4.2s ease-in-out infinite;z-index:10}
+.micropip:after{content:"";position:absolute;right:-38px;top:4px;border-left:40px solid #45637b;border-top:7px solid transparent;border-bottom:7px solid transparent}
+@keyframes vpipe{0%,12%{transform:translate(-25px,-10px) rotate(12deg)}45%,75%{transform:translate(95px,40px) rotate(12deg)}100%{transform:translate(-25px,-10px) rotate(12deg)}}
+.balance3{position:absolute;width:190px;height:90px;border:5px solid #465d72;border-radius:18px;background:#e9eef3;bottom:80px;box-shadow:0 8px 16px rgba(0,0,0,.12)}
+.balance3:before{content:"⚖️";position:absolute;left:61px;top:-64px;font-size:4.2rem}
+.stockbottle{position:absolute;width:130px;height:170px;border:5px solid #3c5870;border-radius:18px 18px 28px 28px;background:rgba(255,255,255,.8);bottom:80px;overflow:hidden}
+.stockbottle:before{content:"";position:absolute;width:65px;height:34px;background:#37536c;left:27px;top:-1px;border-radius:8px}
+.vlabel{position:absolute;padding:.55rem .8rem;border-radius:11px;background:white;border:1px solid #c9d7e4;box-shadow:0 4px 11px rgba(0,0,0,.08);font-weight:900;color:#173d6d;z-index:15}
+.vstep{border:1px solid #cbd9e6;border-radius:16px;background:#f8fbfe;padding:1rem;margin:.6rem 0}
+.vstep.done{background:#eef8f1;border-color:#b9d9c2}
+.material-card{padding:.85rem;border:1px solid #d9e4ee;border-radius:14px;background:white;min-height:90px;text-align:center;box-shadow:0 4px 10px rgba(0,0,0,.06)}
+.material-card b{display:block;color:#173d6d;margin-top:.25rem}
 </style>
 """, unsafe_allow_html=True)
 
@@ -477,6 +507,100 @@ def lab_animation(level):
 
     st.markdown(html,unsafe_allow_html=True)
 
+
+def virtual_lab_intro(level):
+    if level not in (2,3,4):
+        return
+
+    if level==2:
+        html="""<div class="virtual-lab">
+        <div class="vtitle">🧪 Laboratorio virtual · % p/v</div>
+        <div class="vsubtitle">Pesar el soluto, disolver, transferir al matraz y aforar hasta el volumen final.</div>
+        <div class="balance3" style="left:6%"></div>
+        <div class="vlabel" style="left:5%;bottom:290px">1 · BALANZA</div>
+        <div class="beaker" style="left:34%"><div class="vliquid"></div></div>
+        <div class="vlabel" style="left:32%;bottom:290px">2 · DISOLVER</div>
+        <div class="volflask" style="right:14%"><div class="vliquid green"></div></div>
+        <div class="vlabel" style="right:9%;bottom:315px">3 · MATRAZ VOLUMÉTRICO</div>
+        <div class="vbench"></div></div>"""
+    elif level==3:
+        html="""<div class="virtual-lab">
+        <div class="vtitle">🧪 Laboratorio virtual · % v/v</div>
+        <div class="vsubtitle">Medir el componente líquido y completar hasta el volumen final en material volumétrico.</div>
+        <div class="graduated" style="left:8%"><div class="vliquid orange"></div></div>
+        <div class="vlabel" style="left:5%;bottom:330px">1 · PROBETA / PIPETA</div>
+        <div class="micropip" style="left:29%;top:190px"></div>
+        <div class="volflask" style="right:15%"><div class="vliquid green"></div></div>
+        <div class="vlabel" style="right:10%;bottom:315px">2 · COMPLETAR HASTA AFORO</div>
+        <div class="vbench"></div></div>"""
+    else:
+        html="""<div class="virtual-lab">
+        <div class="vtitle">🧪 Laboratorio virtual · Dilución desde solución madre</div>
+        <div class="vsubtitle">Identificar C₁, tomar V₁ con material adecuado y completar hasta V₂.</div>
+        <div class="stockbottle" style="left:6%"><div class="vliquid"></div></div>
+        <div class="vlabel" style="left:4%;bottom:300px">SOLUCIÓN MADRE</div>
+        <div class="micropip" style="left:28%;top:185px"></div>
+        <div class="vlabel" style="left:34%;bottom:310px">TOMAR V₁</div>
+        <div class="volflask" style="right:14%"><div class="vliquid green"></div></div>
+        <div class="vlabel" style="right:8%;bottom:315px">COMPLETAR HASTA V₂</div>
+        <div class="vbench"></div></div>"""
+    st.markdown(html,unsafe_allow_html=True)
+
+def material_selector(level):
+    st.subheader("🧰 Selección de material")
+    materials=["Balanza","Vaso de precipitados","Probeta","Pipeta","Matraz volumétrico"]
+    icons={"Balanza":"⚖️","Vaso de precipitados":"🥛","Probeta":"🧪","Pipeta":"💧","Matraz volumétrico":"⚗️"}
+    cols=st.columns(len(materials))
+    for c,m in zip(cols,materials):
+        c.markdown(f'<div class="material-card">{icons[m]}<b>{m}</b></div>',unsafe_allow_html=True)
+
+    if level==2:
+        expected={"Balanza","Vaso de precipitados","Matraz volumétrico"}
+        prompt="Seleccione el material mínimo apropiado para pesar, disolver y ajustar el volumen final."
+    elif level==3:
+        expected={"Pipeta","Matraz volumétrico"}
+        prompt="Seleccione el material apropiado para medir el componente líquido y ajustar el volumen final."
+    else:
+        expected={"Pipeta","Matraz volumétrico"}
+        prompt="Seleccione el material apropiado para tomar V₁ y preparar el volumen final V₂."
+
+    selected=st.multiselect(prompt,materials,key=f"materials_{level}")
+    correct=set(selected)==expected
+    if selected:
+        if correct:
+            st.success("✅ Selección de material adecuada.")
+        else:
+            st.info("💡 Revise si necesita medir masa, tomar una alícuota o ajustar un volumen final.")
+    return correct
+
+def interactive_steps(level):
+    st.subheader("🕹️ Simulación paso a paso")
+    if level==2:
+        steps=["Pesar el soluto","Disolver en parte del solvente","Transferir al matraz volumétrico","Completar hasta el aforo","Homogeneizar y rotular"]
+    elif level==3:
+        steps=["Medir el componente líquido","Transferir al material volumétrico","Completar hasta el volumen final","Homogeneizar y rotular"]
+    else:
+        steps=["Identificar C₁, C₂ y V₂","Calcular V₁","Tomar V₁ con pipeta","Transferir al matraz","Completar hasta V₂","Homogeneizar y rotular"]
+
+    if f"vstep_{level}" not in st.session_state:
+        st.session_state[f"vstep_{level}"]=0
+
+    idx=st.session_state[f"vstep_{level}"]
+    for i,s in enumerate(steps):
+        cls="vstep done" if i<idx else "vstep"
+        mark="✅" if i<idx else "○"
+        st.markdown(f'<div class="{cls}"><b>{mark} Paso {i+1}</b> · {s}</div>',unsafe_allow_html=True)
+
+    c1,c2=st.columns(2)
+    if c1.button("Ejecutar siguiente paso",key=f"next_vstep_{level}",disabled=idx>=len(steps)):
+        st.session_state[f"vstep_{level}"]=min(idx+1,len(steps))
+        st.rerun()
+    if c2.button("Reiniciar simulación",key=f"reset_vstep_{level}"):
+        st.session_state[f"vstep_{level}"]=0
+        st.rerun()
+
+    return st.session_state[f"vstep_{level}"]>=len(steps)
+
 def module_nav():
     st.subheader("🧭 Navegación por módulos")
 
@@ -518,7 +642,7 @@ def prev_next():
         goto(st.session_state.level+1)
 
 if not st.session_state.started:
-    st.markdown('<div class="hero"><h1>⚗️ TOX-PREP 2.5</h1><p>Simulador veterinario de soluciones, diluciones y cálculos aplicados a Toxicología</p></div>',unsafe_allow_html=True)
+    st.markdown('<div class="hero"><h1>⚗️ TOX-PREP 3.0</h1><p>Simulador veterinario de soluciones, diluciones y cálculos aplicados a Toxicología</p></div>',unsafe_allow_html=True)
     st.markdown('<div class="route">INTERPRETAR → CALCULAR → PREPARAR → VERIFICAR → ROTULAR → CONTEXTO TOXICOLÓGICO</div>',unsafe_allow_html=True)
     cols=st.columns(5)
     for c,(m,ls) in zip(cols,MODULES.items()):
@@ -534,7 +658,7 @@ if not st.session_state.started:
             st.warning("Escriba un nombre.")
     st.stop()
 
-st.markdown('<div class="hero"><h1>⚗️ TOX-PREP 2.5</h1><p>Laboratorio virtual veterinario de preparación aplicada a Toxicología</p></div>',unsafe_allow_html=True)
+st.markdown('<div class="hero"><h1>⚗️ TOX-PREP 3.0</h1><p>Laboratorio virtual veterinario de preparación aplicada a Toxicología</p></div>',unsafe_allow_html=True)
 c1,c2,c3=st.columns([5,1,1])
 c1.progress(st.session_state.level/TOTAL,text=f"Misión {st.session_state.level}/{TOTAL}")
 c2.metric("Puntaje",f"{st.session_state.score}/100")
@@ -547,6 +671,13 @@ lab_animation(L)
 calc_guide(L)
 if L==1:
     unit_converter()
+if L in (2,3,4):
+    virtual_lab_intro(L)
+    material_ok=material_selector(L)
+    simulation_ok=interactive_steps(L)
+else:
+    material_ok=True
+    simulation_ok=True
 
 if L==1:
     mission("En un laboratorio veterinario debe preparar una solución de trabajo. Antes de pesar o pipetear, convierta correctamente 2,5 g a mg y 750 µL a mL. Use el convertidor para practicar con otros valores.")
@@ -562,7 +693,7 @@ elif L==2:
     st.markdown('<div class="formula">7,5 % p/v = 7,5 g / 100 mL de solución final</div>',unsafe_allow_html=True)
     a=st.number_input("Masa de NaCl (g)",0.0,step=.25,key="2a")
     p=st.radio("Procedimiento:",["Agregar 250 mL de agua al soluto.","Disolver en un volumen menor y completar hasta 250 mL de solución final."],index=None,key="2b")
-    if st.button("Comprobar",key="b2"):
+    if st.button("Comprobar",key="b2",disabled=not (material_ok and simulation_ok)):
         submit(2,math.isclose(a,18.75,abs_tol=.01) and p and p.startswith("Disolver"),"Se requieren **18,75 g**; el volumen debe ajustarse hasta 250 mL de solución final.","Use 7,5/100 × 250 y recuerde que % p/v usa volumen final.")
     feedback(2); key("% p/v se refiere al volumen final, no al volumen de solvente añadido."); prev_next()
 
@@ -571,7 +702,7 @@ elif L==3:
     concept(["% v/v","Volumen final"])
     a=st.number_input("Volumen del componente líquido (mL)",0.0,step=1.0,key="3a")
     p=st.radio("Procedimiento:",["Tomar el volumen calculado y completar hasta 200 mL finales.","Añadir 200 mL de solvente al volumen calculado."],index=None,key="3b")
-    if st.button("Comprobar",key="b3"):
+    if st.button("Comprobar",key="b3",disabled=not (material_ok and simulation_ok)):
         submit(3,math.isclose(a,50) and p and p.startswith("Tomar"),"25 % de 200 mL = **50 mL**; se completa hasta 200 mL finales.","25/100 × 200.")
     feedback(3); key("En % v/v el denominador corresponde al volumen final de la preparación."); prev_next()
 
@@ -582,7 +713,7 @@ elif L==4:
     check=st.number_input("Antes de diluir: 1 % p/v equivale a ¿mg/mL?",0.0,step=1.0,key="4c")
     a=st.number_input("V₁ de solución madre (mL)",0.0,step=1.0,key="4a")
     p=st.radio("Luego:",["Agregar 100 mL de diluyente.","Completar la preparación hasta un volumen final de 100 mL."],index=None,key="4b")
-    if st.button("Comprobar",key="b4"):
+    if st.button("Comprobar",key="b4",disabled=not (material_ok and simulation_ok)):
         submit(4,math.isclose(check,10) and math.isclose(a,10) and p and p.startswith("Completar"),"1 % = **10 mg/mL**. V₁=(0,1×100)/1 = **10 mL**; luego se completa hasta 100 mL finales.","Primero convierta 1 % p/v a mg/mL. Después use C₁V₁=C₂V₂.")
     feedback(4); key("La misma dilución puede expresarse como 1 % → 0,1 % o 10 mg/mL → 1 mg/mL."); prev_next()
 
@@ -776,4 +907,4 @@ elif L==10:
         st.button("Repetir laboratorio",on_click=reset,type="primary")
 
 st.divider()
-st.caption("TOX-PREP 2.5 · Recurso educativo para medicina veterinaria y toxicología. No sustituye protocolos clínicos, fichas técnicas, evaluación del paciente ni normativa institucional.")
+st.caption("TOX-PREP 3.0 · Recurso educativo para medicina veterinaria y toxicología. No sustituye protocolos clínicos, fichas técnicas, evaluación del paciente ni normativa institucional.")
