@@ -3,7 +3,7 @@ import time
 import streamlit as st
 import pandas as pd
 
-st.set_page_config(page_title="TOX-PREP 2.1", page_icon="⚗️", layout="wide")
+st.set_page_config(page_title="TOX-PREP 2.2", page_icon="⚗️", layout="wide")
 
 st.markdown("""
 <style>
@@ -30,6 +30,62 @@ div[data-testid="stMetric"]{border:1px solid #e1e8f0;padding:.55rem;border-radiu
 .pearson-center strong{font-size:2rem;color:#12315e}
 .arrowbig{text-align:center;font-size:2.2rem;font-weight:900;color:#486b94}
 .resultbig{padding:1rem;border-radius:16px;background:#eef7f1;border:1px solid #c8dfcf;text-align:center;font-size:1.2rem;font-weight:700}
+
+.module-nav-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:12px;margin:.8rem 0 1rem}
+.modbtn{display:flex;flex-direction:column;justify-content:center;align-items:center;text-decoration:none!important;
+padding:1rem .6rem;border-radius:16px;color:white!important;font-weight:850;min-height:88px;
+border:2px solid rgba(0,0,0,.08);box-shadow:0 7px 0 rgba(0,0,0,.18),0 10px 18px rgba(0,0,0,.12);
+transition:transform .12s ease,box-shadow .12s ease;letter-spacing:.01em}
+.modbtn:hover{transform:translateY(3px);box-shadow:0 4px 0 rgba(0,0,0,.18),0 7px 12px rgba(0,0,0,.12)}
+.modbtn:active{transform:translateY(6px);box-shadow:0 1px 0 rgba(0,0,0,.2)}
+.mod1{background:linear-gradient(180deg,#295f9e,#1f4b82)}
+.mod2{background:linear-gradient(180deg,#168b7a,#0d6d60)}
+.mod3{background:linear-gradient(180deg,#7a57b5,#604097)}
+.mod4{background:linear-gradient(180deg,#d17a20,#a85e12)}
+.mod5{background:linear-gradient(180deg,#a84254,#853243)}
+.modbtn .mstate{font-size:.82rem;margin-top:.3rem;opacity:.95}
+
+.labstage{position:relative;min-height:350px;border-radius:24px;border:1px solid #cddbea;
+background:radial-gradient(circle at 50% 10%,#ffffff 0%,#f6faff 55%,#edf4fb 100%);
+overflow:hidden;margin:.8rem 0 1rem;box-shadow:inset 0 -10px 35px rgba(34,72,116,.06)}
+.bench{position:absolute;left:0;right:0;bottom:0;height:68px;background:linear-gradient(#d9e3ed,#bac9d8);
+border-top:2px solid #aabaca}
+.labtitle{position:absolute;top:18px;left:24px;font-weight:900;color:#12315e;font-size:1.25rem}
+.flask{position:absolute;width:112px;height:145px;border:5px solid #294968;border-radius:16px 16px 34px 34px;
+bottom:62px;background:rgba(255,255,255,.78);overflow:hidden;box-shadow:0 8px 15px rgba(0,0,0,.12)}
+.flask:before{content:"";position:absolute;width:44px;height:35px;border:5px solid #294968;border-bottom:0;
+top:-39px;left:29px;border-radius:8px 8px 0 0;background:#fff}
+.liquid{position:absolute;left:0;right:0;bottom:0;height:32%;background:linear-gradient(180deg,#72b7d8,#3487b3);
+animation:fillLiquid 4.8s ease-in-out infinite}
+.liquid.green{background:linear-gradient(180deg,#74c8ac,#2d9070)}
+.liquid.orange{background:linear-gradient(180deg,#f2bd6b,#d17a20)}
+@keyframes fillLiquid{0%,12%{height:12%}55%,100%{height:70%}}
+.drop{position:absolute;width:16px;height:22px;background:#4aa0c8;border-radius:50% 50% 58% 58%;
+transform:rotate(45deg);animation:dropFall 2s ease-in infinite}
+@keyframes dropFall{0%{top:105px;opacity:0}20%{opacity:1}75%{top:230px;opacity:1}100%{top:250px;opacity:0}}
+.arrowmove{position:absolute;font-size:3rem;font-weight:900;color:#456b91;animation:arrowPulse 1.3s ease-in-out infinite}
+@keyframes arrowPulse{0%,100%{transform:translateX(0);opacity:.45}50%{transform:translateX(13px);opacity:1}}
+.balance{position:absolute;bottom:72px;width:150px;height:80px;border-radius:16px;background:#e9eef3;border:4px solid #485e72;
+box-shadow:0 8px 14px rgba(0,0,0,.12)}
+.balance:before{content:"⚖";font-size:3.2rem;position:absolute;left:45px;top:-48px}
+.labeltag{position:absolute;padding:.45rem .7rem;background:white;border:1px solid #cad8e5;border-radius:10px;
+box-shadow:0 4px 10px rgba(0,0,0,.08);font-weight:800;color:#173d6d}
+.pipette{position:absolute;width:175px;height:18px;background:linear-gradient(90deg,#a9bfd2,#f8fbfd);
+border:3px solid #48657d;border-radius:10px;transform:rotate(15deg);animation:pipMove 4s ease-in-out infinite}
+.pipette:after{content:"";position:absolute;right:-28px;top:3px;border-left:30px solid #48657d;border-top:5px solid transparent;border-bottom:5px solid transparent}
+@keyframes pipMove{0%,100%{transform:translate(0,0) rotate(15deg)}50%{transform:translate(55px,22px) rotate(15deg)}}
+.stir{position:absolute;font-size:3rem;animation:spin 2s linear infinite}
+@keyframes spin{from{transform:rotate(0)}to{transform:rotate(360deg)}}
+
+.calcguide{border-radius:20px;border:1px solid #cddbea;background:linear-gradient(135deg,#fff,#f7fbff);
+padding:1.2rem 1.35rem;margin:1rem 0;box-shadow:0 5px 15px rgba(28,61,99,.07)}
+.calcguide h4{margin:.1rem 0 .9rem;color:#12315e;font-size:1.25rem}
+.calcflow{display:grid;grid-template-columns:1fr auto 1fr auto 1fr;gap:.7rem;align-items:stretch}
+.calcstep{padding:1rem;border-radius:15px;background:white;border:1px solid #d9e4ee;text-align:center;
+display:flex;flex-direction:column;justify-content:center;min-height:120px}
+.calcstep b{color:#173d6d;font-size:1.05rem}.calcstep .big{font-size:1.35rem;font-weight:900;margin-top:.4rem}
+.calcarrow{display:flex;align-items:center;font-size:2.3rem;color:#6f88a3;font-weight:900}
+@media(max-width:900px){.module-nav-grid{grid-template-columns:1fr 1fr}.calcflow{grid-template-columns:1fr}.calcarrow{justify-content:center;transform:rotate(90deg)}}
 </style>
 """, unsafe_allow_html=True)
 
@@ -138,13 +194,106 @@ def goto(level):
     st.session_state.level=level
     st.rerun()
 
+
+GUIDES={
+1:("Ejemplo: convertir 1,2 g a mg",["Identifique equivalencia","1 g = 1000 mg","Multiplique","1,2 × 1000","Resultado","1200 mg"]),
+2:("Ejemplo: preparar 100 mL al 4 % p/v",["Interprete el %","4 g / 100 mL","Use el volumen final","100 mL","Resultado","4 g de soluto"]),
+3:("Ejemplo: preparar 100 mL al 30 % v/v",["Interprete el %","30 mL / 100 mL","Use el volumen final","100 mL","Resultado","30 mL del componente"]),
+4:("Ejemplo: diluir 2 % hasta 0,5 % y preparar 100 mL",["Fórmula","C₁V₁=C₂V₂","Sustituya","2·V₁=0,5·100","Resultado","V₁ = 25 mL"]),
+5:("Ejemplo: convertir 2 % p/v a mg/mL",["Interprete","2 g / 100 mL","Convierta","2000 mg / 100 mL","Resultado","20 mg/mL"]),
+6:("Ejemplo: una dilución 1:5 de 500 µg/mL",["Concentración inicial","500 µg/mL","Divida por FD","500 ÷ 5","Resultado","100 µg/mL"]),
+7:("Ejemplo Pearson distinto: 15 % + 5 % → 10 %",["Diagonales","|10−5|=5","Otra diagonal","|15−10|=5","Resultado","Relación 1:1"]),
+8:("Ejemplo: se necesitan 8 g puros con reactivo al 80 %",["Masa requerida","8 g","Corrija pureza","8 ÷ 0,80","Resultado","10 g"]),
+9:("Ejemplo de revisión",["Objetivo","200 mL al 5 % p/v","Masa","10 g","Procedimiento","Completar hasta 200 mL finales"]),
+10:("Ejemplo integrador: 1 % → 0,2 %, V₂=100 mL",["Fórmula","C₁V₁=C₂V₂","Sustituya","1·V₁=0,2·100","Resultado","V₁ = 20 mL"])
+}
+
+def calc_guide(level):
+    title,vals=GUIDES[level]
+    html=f'''<div class="calcguide">
+      <h4>🧭 Ejemplo resuelto · Guía de cálculo</h4>
+      <div class="small">{title}. Este ejemplo es diferente al ejercicio evaluado.</div>
+      <div class="calcflow">
+        <div class="calcstep"><b>{vals[0]}</b><div class="big">{vals[1]}</div></div>
+        <div class="calcarrow">→</div>
+        <div class="calcstep"><b>{vals[2]}</b><div class="big">{vals[3]}</div></div>
+        <div class="calcarrow">→</div>
+        <div class="calcstep"><b>{vals[4]}</b><div class="big">{vals[5]}</div></div>
+      </div>
+    </div>'''
+    st.markdown(html,unsafe_allow_html=True)
+
+def lab_animation(level):
+    if level==1:
+        html='''<div class="labstage"><div class="labtitle">🎬 De la unidad al cálculo seguro</div>
+        <div class="balance" style="left:8%"></div><div class="labeltag" style="left:8%;bottom:175px">g</div>
+        <div class="arrowmove" style="left:38%;bottom:125px">➜</div><div class="labeltag" style="left:54%;bottom:150px;font-size:1.3rem">× 1000</div>
+        <div class="labeltag" style="right:8%;bottom:100px;font-size:1.4rem">mg</div><div class="bench"></div></div>'''
+    elif level==2:
+        html='''<div class="labstage"><div class="labtitle">🎬 Preparación % p/v</div>
+        <div class="balance" style="left:6%"></div><div class="labeltag" style="left:5%;bottom:180px">1 · PESAR</div>
+        <div class="arrowmove" style="left:29%;bottom:120px">➜</div>
+        <div class="flask" style="left:43%"><div class="liquid"></div></div>
+        <div class="drop" style="left:49%"></div><div class="labeltag" style="left:41%;bottom:220px">2 · DISOLVER</div>
+        <div class="arrowmove" style="left:62%;bottom:120px">➜</div>
+        <div class="flask" style="right:8%"><div class="liquid green"></div></div>
+        <div class="labeltag" style="right:5%;bottom:220px">3 · AFORAR + ROTULAR</div><div class="bench"></div></div>'''
+    elif level==3:
+        html='''<div class="labstage"><div class="labtitle">🎬 Preparación % v/v</div>
+        <div class="pipette" style="left:7%;top:130px"></div><div class="labeltag" style="left:8%;bottom:100px">MEDIR VOLUMEN</div>
+        <div class="arrowmove" style="left:37%;bottom:125px">➜</div>
+        <div class="flask" style="left:49%"><div class="liquid orange"></div></div><div class="drop" style="left:55%"></div>
+        <div class="arrowmove" style="left:68%;bottom:125px">➜</div><div class="labeltag" style="right:4%;bottom:115px;font-size:1.15rem">COMPLETAR<br>VOLUMEN FINAL</div><div class="bench"></div></div>'''
+    elif level in (4,5):
+        html='''<div class="labstage"><div class="labtitle">🎬 Dilución desde solución madre</div>
+        <div class="flask" style="left:7%"><div class="liquid"></div></div><div class="labeltag" style="left:5%;bottom:220px">SOLUCIÓN MADRE</div>
+        <div class="pipette" style="left:29%;top:135px"></div><div class="arrowmove" style="left:51%;bottom:125px">➜</div>
+        <div class="flask" style="right:14%"><div class="liquid green"></div></div><div class="drop" style="right:18%"></div>
+        <div class="labeltag" style="right:8%;bottom:220px">SOLUCIÓN DILUIDA</div><div class="stir" style="right:17%;bottom:105px">↻</div><div class="bench"></div></div>'''
+    elif level==6:
+        html='''<div class="labstage"><div class="labtitle">🎬 Dilución seriada</div>
+        <div class="flask" style="left:5%;width:85px;height:115px"><div class="liquid"></div></div>
+        <div class="arrowmove" style="left:23%;bottom:110px">➜</div><div class="flask" style="left:38%;width:85px;height:115px"><div class="liquid green"></div></div>
+        <div class="arrowmove" style="left:56%;bottom:110px">➜</div><div class="flask" style="right:15%;width:85px;height:115px"><div class="liquid orange"></div></div>
+        <div class="labeltag" style="left:3%;bottom:200px">MUESTRA</div><div class="labeltag" style="left:35%;bottom:200px">1ª DILUCIÓN</div>
+        <div class="labeltag" style="right:10%;bottom:200px">2ª DILUCIÓN</div><div class="bench"></div></div>'''
+    elif level==7:
+        html='''<div class="labstage"><div class="labtitle">🎬 Pearson: dos concentraciones convergen en un objetivo</div>
+        <div class="flask" style="left:7%"><div class="liquid"></div></div><div class="labeltag" style="left:4%;bottom:220px">CONCENTRACIÓN ALTA</div>
+        <div class="flask" style="left:31%"><div class="liquid green"></div></div><div class="labeltag" style="left:29%;bottom:220px">CONCENTRACIÓN BAJA</div>
+        <div class="arrowmove" style="left:53%;bottom:125px">➜</div><div class="flask" style="right:12%;width:135px;height:165px"><div class="liquid orange"></div></div>
+        <div class="labeltag" style="right:7%;bottom:245px">CONCENTRACIÓN OBJETIVO</div><div class="stir" style="right:17%;bottom:105px">↻</div><div class="bench"></div></div>'''
+    elif level==8:
+        html='''<div class="labstage"><div class="labtitle">🎬 Corrección por pureza antes de pesar</div>
+        <div class="labeltag" style="left:8%;bottom:180px;font-size:1.25rem">MASA PURA<br>REQUERIDA</div>
+        <div class="arrowmove" style="left:36%;bottom:130px">➜</div><div class="labeltag" style="left:48%;bottom:175px;font-size:1.2rem">÷ FRACCIÓN<br>DE PUREZA</div>
+        <div class="arrowmove" style="left:68%;bottom:130px">➜</div><div class="balance" style="right:7%"></div><div class="bench"></div></div>'''
+    else:
+        html='''<div class="labstage"><div class="labtitle">🎬 Verificar antes de usar</div>
+        <div class="flask" style="left:8%"><div class="liquid green"></div></div><div class="labeltag" style="left:5%;bottom:220px">PREPARAR</div>
+        <div class="arrowmove" style="left:34%;bottom:125px">➜</div><div class="labeltag" style="left:46%;bottom:165px;font-size:1.2rem">✓ CÁLCULO<br>✓ VOLUMEN<br>✓ UNIDADES</div>
+        <div class="arrowmove" style="left:66%;bottom:125px">➜</div><div class="labeltag" style="right:6%;bottom:150px;font-size:1.2rem">🏷 ROTULAR</div><div class="bench"></div></div>'''
+    st.markdown(html,unsafe_allow_html=True)
+
 def module_nav():
     st.subheader("🧭 Navegación por módulos")
-    cols=st.columns(5)
-    for col,(mod,levels) in zip(cols,MODULES.items()):
-        label=f"{mod}\n" + " · ".join([f"{'✓' if st.session_state.solved.get(l) else '●' if st.session_state.level==l else '○'} M{l}" for l in levels])
-        if col.button(label,use_container_width=True,key=f"mod_{mod}"):
-            goto(levels[0])
+    items=[]
+    colors=["mod1","mod2","mod3","mod4","mod5"]
+    icons=["🧠","🧪","💧","⚗️","🐾"]
+    for (mod,levels),css,icon in zip(MODULES.items(),colors,icons):
+        done=sum(1 for l in levels if st.session_state.solved.get(l))
+        items.append(f'<a class="modbtn {css}" href="?level={levels[0]}">{icon}<br>{mod}<span class="mstate">{done}/{len(levels)} completadas</span></a>')
+    st.markdown('<div class="module-nav-grid">'+''.join(items)+'</div>',unsafe_allow_html=True)
+    try:
+        q=st.query_params.get("level")
+        if q:
+            q=int(q)
+            if 1<=q<=TOTAL and q!=st.session_state.level:
+                st.session_state.level=q
+                st.query_params.clear()
+                st.rerun()
+    except Exception:
+        pass
     current=MOD_BY_LEVEL[st.session_state.level]
     st.caption(f"Módulo actual: **{current}**")
     subcols=st.columns(len(MODULES[current]))
@@ -161,7 +310,7 @@ def prev_next():
         goto(st.session_state.level+1)
 
 if not st.session_state.started:
-    st.markdown('<div class="hero"><h1>⚗️ TOX-PREP 2.1</h1><p>Simulador veterinario de soluciones, diluciones y cálculos aplicados a Toxicología</p></div>',unsafe_allow_html=True)
+    st.markdown('<div class="hero"><h1>⚗️ TOX-PREP 2.2</h1><p>Simulador veterinario de soluciones, diluciones y cálculos aplicados a Toxicología</p></div>',unsafe_allow_html=True)
     st.markdown('<div class="route">INTERPRETAR → CALCULAR → PREPARAR → VERIFICAR → ROTULAR → CONTEXTO TOXICOLÓGICO</div>',unsafe_allow_html=True)
     cols=st.columns(5)
     for c,(m,ls) in zip(cols,MODULES.items()):
@@ -177,7 +326,7 @@ if not st.session_state.started:
             st.warning("Escriba un nombre.")
     st.stop()
 
-st.markdown('<div class="hero"><h1>⚗️ TOX-PREP 2.1</h1><p>Laboratorio virtual veterinario de preparación aplicada a Toxicología</p></div>',unsafe_allow_html=True)
+st.markdown('<div class="hero"><h1>⚗️ TOX-PREP 2.2</h1><p>Laboratorio virtual veterinario de preparación aplicada a Toxicología</p></div>',unsafe_allow_html=True)
 c1,c2,c3=st.columns([5,1,1])
 c1.progress(st.session_state.level/TOTAL,text=f"Misión {st.session_state.level}/{TOTAL}")
 c2.metric("Puntaje",f"{st.session_state.score}/100")
@@ -186,7 +335,8 @@ module_nav()
 L=st.session_state.level
 st.markdown(f'<span class="badge">{MOD_BY_LEVEL[L]}</span>',unsafe_allow_html=True)
 st.header(f"Misión {L} · {TITLES[L]}")
-show_animation(L)
+lab_animation(L)
+calc_guide(L)
 
 if L==1:
     mission("En un laboratorio veterinario debe preparar una solución de trabajo. Antes de iniciar, convierta 2,5 g a mg y 750 µL a mL.")
@@ -416,4 +566,4 @@ elif L==10:
         st.button("Repetir laboratorio",on_click=reset,type="primary")
 
 st.divider()
-st.caption("TOX-PREP 2.1 · Recurso educativo para medicina veterinaria y toxicología. No sustituye protocolos clínicos, fichas técnicas, evaluación del paciente ni normativa institucional.")
+st.caption("TOX-PREP 2.2 · Recurso educativo para medicina veterinaria y toxicología. No sustituye protocolos clínicos, fichas técnicas, evaluación del paciente ni normativa institucional.")
