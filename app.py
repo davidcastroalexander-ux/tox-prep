@@ -3,7 +3,7 @@ import time
 import streamlit as st
 import pandas as pd
 
-st.set_page_config(page_title="TOX-PREP 2.2", page_icon="⚗️", layout="wide")
+st.set_page_config(page_title="TOX-PREP 2.3", page_icon="⚗️", layout="wide")
 
 st.markdown("""
 <style>
@@ -86,6 +86,31 @@ display:flex;flex-direction:column;justify-content:center;min-height:120px}
 .calcstep b{color:#173d6d;font-size:1.05rem}.calcstep .big{font-size:1.35rem;font-weight:900;margin-top:.4rem}
 .calcarrow{display:flex;align-items:center;font-size:2.3rem;color:#6f88a3;font-weight:900}
 @media(max-width:900px){.module-nav-grid{grid-template-columns:1fr 1fr}.calcflow{grid-template-columns:1fr}.calcarrow{justify-content:center;transform:rotate(90deg)}}
+
+.convstage{position:relative;min-height:430px;border-radius:24px;border:1px solid #cbd9e8;
+background:linear-gradient(180deg,#fbfdff 0%,#eef5fb 100%);overflow:hidden;margin:.8rem 0 1rem;
+box-shadow:inset 0 -12px 35px rgba(25,58,94,.07)}
+.convtitle{position:absolute;left:28px;top:20px;font-size:1.35rem;font-weight:900;color:#12315e}
+.scale-row{position:absolute;left:7%;right:7%;top:105px;display:grid;grid-template-columns:repeat(7,1fr);gap:10px;align-items:center}
+.scale-unit{padding:.75rem .25rem;border-radius:14px;background:white;border:2px solid #d4e0eb;
+box-shadow:0 5px 0 #c4d1dd,0 8px 14px rgba(0,0,0,.08);text-align:center;font-weight:900;color:#173d6d}
+.scale-unit.active{border-color:#2e6da4;background:#eef6fd;animation:unitPulse 1.8s ease-in-out infinite}
+@keyframes unitPulse{0%,100%{transform:translateY(0);box-shadow:0 5px 0 #b9c9d8,0 8px 14px rgba(0,0,0,.08)}50%{transform:translateY(-7px);box-shadow:0 10px 0 #b9c9d8,0 14px 20px rgba(0,0,0,.10)}}
+.conv-arrow{position:absolute;left:14%;right:14%;top:208px;height:6px;background:#7da4c5;border-radius:999px}
+.conv-arrow:after{content:"";position:absolute;right:-2px;top:-9px;border-left:20px solid #7da4c5;border-top:12px solid transparent;border-bottom:12px solid transparent}
+.conv-marker{position:absolute;top:186px;width:32px;height:32px;border-radius:50%;background:#1f5f96;border:5px solid #eaf3fb;
+box-shadow:0 4px 12px rgba(0,0,0,.18);animation:moveMarker 4.5s ease-in-out infinite}
+@keyframes moveMarker{0%,10%{left:15%}45%,55%{left:48%}90%,100%{left:80%}}
+.conv-label{position:absolute;top:245px;left:0;right:0;text-align:center;font-weight:800;color:#4b6480;font-size:1.02rem;padding:0 7%}
+.conv-lab{position:absolute;left:8%;bottom:45px;width:175px;height:95px;border-radius:18px;background:#e9eef3;border:5px solid #485e72;box-shadow:0 8px 16px rgba(0,0,0,.13)}
+.conv-lab:before{content:"⚖️";position:absolute;font-size:4rem;left:48px;top:-58px}
+.conv-beaker{position:absolute;right:10%;bottom:45px;width:130px;height:120px;border:5px solid #46627a;border-top:0;border-radius:0 0 25px 25px;background:rgba(255,255,255,.7);overflow:hidden}
+.conv-beaker:before{content:"";position:absolute;left:12px;right:12px;bottom:0;height:60%;background:linear-gradient(180deg,#79bdd9,#3b8fb5);animation:beakerFill 4s ease-in-out infinite}
+@keyframes beakerFill{0%,100%{height:25%}50%{height:72%}}
+.conv-badge{position:absolute;padding:.45rem .75rem;border-radius:10px;background:white;border:1px solid #cad8e5;box-shadow:0 4px 10px rgba(0,0,0,.08);font-weight:850;color:#173d6d}
+.converter-box{border:1px solid #cddbea;border-radius:20px;padding:1.15rem 1.25rem;background:linear-gradient(135deg,#ffffff,#f6faff);margin:1rem 0}
+.converter-box h4{margin:0 0 .7rem;color:#12315e;font-size:1.25rem}
+.converter-result{padding:1rem;border-radius:14px;background:#eef7f1;border:1px solid #c8dfcf;text-align:center;font-size:1.25rem;font-weight:900;color:#215b3b}
 </style>
 """, unsafe_allow_html=True)
 
@@ -223,12 +248,47 @@ def calc_guide(level):
     </div>'''
     st.markdown(html,unsafe_allow_html=True)
 
+
+MASS_FACTORS={"µg":1e-6,"mg":1e-3,"g":1.0,"kg":1000.0}
+VOL_FACTORS={"µL":1e-3,"mL":1.0,"cL":10.0,"dL":100.0,"L":1000.0}
+
+def unit_converter():
+    st.markdown('<div class="converter-box"><h4>🔄 Convertidor interactivo de masa y volumen</h4><div class="small">Explore valores distintos al ejercicio. Esta herramienta no suma puntos.</div></div>', unsafe_allow_html=True)
+    kind=st.radio("Tipo de conversión",["Masa","Volumen"],horizontal=True,key="conv_kind")
+    factors=MASS_FACTORS if kind=="Masa" else VOL_FACTORS
+    units=list(factors.keys())
+    c1,c2,c3=st.columns([1.2,1,1])
+    value=c1.number_input("Valor",min_value=0.0,value=1.0,step=.1,key="conv_val")
+    default_from=2 if kind=="Masa" else 1
+    default_to=1 if kind=="Masa" else 4
+    from_u=c2.selectbox("Desde",units,index=default_from,key="conv_from")
+    to_u=c3.selectbox("Hacia",units,index=default_to,key="conv_to")
+    base=value*factors[from_u]
+    result=base/factors[to_u]
+    st.markdown(f'<div class="converter-result">{value:g} {from_u} = {result:g} {to_u}</div>',unsafe_allow_html=True)
+    with st.expander("¿Cómo se obtuvo?"):
+        if kind=="Masa":
+            st.write(f"Paso 1: convertir a gramos: {value:g} {from_u} × {factors[from_u]:g} = {base:g} g.")
+            st.write(f"Paso 2: convertir de gramos a {to_u}: {base:g} ÷ {factors[to_u]:g} = {result:g} {to_u}.")
+        else:
+            st.write(f"Paso 1: convertir a mililitros: {value:g} {from_u} × {factors[from_u]:g} = {base:g} mL.")
+            st.write(f"Paso 2: convertir de mililitros a {to_u}: {base:g} ÷ {factors[to_u]:g} = {result:g} {to_u}.")
+
 def lab_animation(level):
     if level==1:
-        html='''<div class="labstage"><div class="labtitle">🎬 De la unidad al cálculo seguro</div>
-        <div class="balance" style="left:8%"></div><div class="labeltag" style="left:8%;bottom:175px">g</div>
-        <div class="arrowmove" style="left:38%;bottom:125px">➜</div><div class="labeltag" style="left:54%;bottom:150px;font-size:1.3rem">× 1000</div>
-        <div class="labeltag" style="right:8%;bottom:100px;font-size:1.4rem">mg</div><div class="bench"></div></div>'''
+        html="""<div class="convstage">
+        <div class="convtitle">🎬 Conversión visual de unidades</div>
+        <div class="scale-row">
+          <div class="scale-unit">µg</div><div class="scale-unit">mg</div><div class="scale-unit active">g</div>
+          <div class="scale-unit">kg</div><div class="scale-unit">µL</div><div class="scale-unit">mL</div><div class="scale-unit">L</div>
+        </div>
+        <div class="conv-arrow"></div><div class="conv-marker"></div>
+        <div class="conv-label">La masa y el volumen se convierten por separado. Observe el desplazamiento entre órdenes de magnitud y verifique siempre la unidad final.</div>
+        <div class="conv-lab"></div>
+        <div class="conv-badge" style="left:7%;bottom:160px">MASA · µg ↔ mg ↔ g ↔ kg</div>
+        <div class="conv-beaker"></div>
+        <div class="conv-badge" style="right:6%;bottom:175px">VOLUMEN · µL ↔ mL ↔ L</div>
+        </div>"""
     elif level==2:
         html='''<div class="labstage"><div class="labtitle">🎬 Preparación % p/v</div>
         <div class="balance" style="left:6%"></div><div class="labeltag" style="left:5%;bottom:180px">1 · PESAR</div>
@@ -310,7 +370,7 @@ def prev_next():
         goto(st.session_state.level+1)
 
 if not st.session_state.started:
-    st.markdown('<div class="hero"><h1>⚗️ TOX-PREP 2.2</h1><p>Simulador veterinario de soluciones, diluciones y cálculos aplicados a Toxicología</p></div>',unsafe_allow_html=True)
+    st.markdown('<div class="hero"><h1>⚗️ TOX-PREP 2.3</h1><p>Simulador veterinario de soluciones, diluciones y cálculos aplicados a Toxicología</p></div>',unsafe_allow_html=True)
     st.markdown('<div class="route">INTERPRETAR → CALCULAR → PREPARAR → VERIFICAR → ROTULAR → CONTEXTO TOXICOLÓGICO</div>',unsafe_allow_html=True)
     cols=st.columns(5)
     for c,(m,ls) in zip(cols,MODULES.items()):
@@ -326,7 +386,7 @@ if not st.session_state.started:
             st.warning("Escriba un nombre.")
     st.stop()
 
-st.markdown('<div class="hero"><h1>⚗️ TOX-PREP 2.2</h1><p>Laboratorio virtual veterinario de preparación aplicada a Toxicología</p></div>',unsafe_allow_html=True)
+st.markdown('<div class="hero"><h1>⚗️ TOX-PREP 2.3</h1><p>Laboratorio virtual veterinario de preparación aplicada a Toxicología</p></div>',unsafe_allow_html=True)
 c1,c2,c3=st.columns([5,1,1])
 c1.progress(st.session_state.level/TOTAL,text=f"Misión {st.session_state.level}/{TOTAL}")
 c2.metric("Puntaje",f"{st.session_state.score}/100")
@@ -337,9 +397,11 @@ st.markdown(f'<span class="badge">{MOD_BY_LEVEL[L]}</span>',unsafe_allow_html=Tr
 st.header(f"Misión {L} · {TITLES[L]}")
 lab_animation(L)
 calc_guide(L)
+if L==1:
+    unit_converter()
 
 if L==1:
-    mission("En un laboratorio veterinario debe preparar una solución de trabajo. Antes de iniciar, convierta 2,5 g a mg y 750 µL a mL.")
+    mission("En un laboratorio veterinario debe preparar una solución de trabajo. Antes de pesar o pipetear, convierta correctamente 2,5 g a mg y 750 µL a mL. Use el convertidor para practicar con otros valores.")
     a=st.number_input("2,5 g = ¿mg?",0.0,step=100.0,key="1a")
     b=st.number_input("750 µL = ¿mL?",0.0,step=.05,key="1b")
     if st.button("Comprobar",key="b1"):
@@ -566,4 +628,4 @@ elif L==10:
         st.button("Repetir laboratorio",on_click=reset,type="primary")
 
 st.divider()
-st.caption("TOX-PREP 2.2 · Recurso educativo para medicina veterinaria y toxicología. No sustituye protocolos clínicos, fichas técnicas, evaluación del paciente ni normativa institucional.")
+st.caption("TOX-PREP 2.3 · Recurso educativo para medicina veterinaria y toxicología. No sustituye protocolos clínicos, fichas técnicas, evaluación del paciente ni normativa institucional.")
