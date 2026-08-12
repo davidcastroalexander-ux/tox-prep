@@ -3,7 +3,7 @@ import time
 import streamlit as st
 import pandas as pd
 
-st.set_page_config(page_title="TOX-PREP 2.3", page_icon="⚗️", layout="wide")
+st.set_page_config(page_title="TOX-PREP 2.4", page_icon="⚗️", layout="wide")
 
 st.markdown("""
 <style>
@@ -111,6 +111,42 @@ box-shadow:0 4px 12px rgba(0,0,0,.18);animation:moveMarker 4.5s ease-in-out infi
 .converter-box{border:1px solid #cddbea;border-radius:20px;padding:1.15rem 1.25rem;background:linear-gradient(135deg,#ffffff,#f6faff);margin:1rem 0}
 .converter-box h4{margin:0 0 .7rem;color:#12315e;font-size:1.25rem}
 .converter-result{padding:1rem;border-radius:14px;background:#eef7f1;border:1px solid #c8dfcf;text-align:center;font-size:1.25rem;font-weight:900;color:#215b3b}
+
+.st-key-module_nav_container div[data-testid="stColumn"] button{
+    min-height:110px!important;border-radius:18px!important;border:2px solid rgba(0,0,0,.10)!important;
+    color:white!important;font-weight:850!important;font-size:1.05rem!important;
+    box-shadow:0 8px 0 rgba(0,0,0,.20),0 12px 20px rgba(0,0,0,.14)!important;
+    transition:transform .12s ease,box-shadow .12s ease!important}
+.st-key-module_nav_container div[data-testid="stColumn"] button:hover{
+    transform:translateY(3px)!important;box-shadow:0 5px 0 rgba(0,0,0,.20),0 9px 15px rgba(0,0,0,.14)!important}
+.st-key-module_nav_container div[data-testid="stColumn"] button:active{
+    transform:translateY(7px)!important;box-shadow:0 1px 0 rgba(0,0,0,.22)!important}
+.st-key-module_nav_container div[data-testid="stColumn"]:nth-child(1) button{background:linear-gradient(180deg,#3169a6,#245286)!important}
+.st-key-module_nav_container div[data-testid="stColumn"]:nth-child(2) button{background:linear-gradient(180deg,#1c927f,#11705f)!important}
+.st-key-module_nav_container div[data-testid="stColumn"]:nth-child(3) button{background:linear-gradient(180deg,#805bc0,#66439f)!important}
+.st-key-module_nav_container div[data-testid="stColumn"]:nth-child(4) button{background:linear-gradient(180deg,#d77f20,#ad6111)!important}
+.st-key-module_nav_container div[data-testid="stColumn"]:nth-child(5) button{background:linear-gradient(180deg,#ad4559,#893546)!important}
+
+.st-key-mission_nav_I div[data-testid="stColumn"] button,
+.st-key-mission_nav_II div[data-testid="stColumn"] button,
+.st-key-mission_nav_III div[data-testid="stColumn"] button,
+.st-key-mission_nav_IV div[data-testid="stColumn"] button,
+.st-key-mission_nav_V div[data-testid="stColumn"] button{
+    min-height:62px!important;border-radius:14px!important;color:white!important;font-weight:800!important;
+    border:1px solid rgba(0,0,0,.10)!important;
+    box-shadow:0 5px 0 rgba(0,0,0,.18),0 8px 13px rgba(0,0,0,.10)!important;
+    transition:transform .12s ease,box-shadow .12s ease!important}
+.st-key-mission_nav_I button{background:linear-gradient(180deg,#4d80ba,#35669f)!important}
+.st-key-mission_nav_II button{background:linear-gradient(180deg,#35a08e,#21806f)!important}
+.st-key-mission_nav_III button{background:linear-gradient(180deg,#936fc9,#7554ad)!important}
+.st-key-mission_nav_IV button{background:linear-gradient(180deg,#df9141,#c17526)!important}
+.st-key-mission_nav_V button{background:linear-gradient(180deg,#bc6271,#a24758)!important}
+.st-key-mission_nav_I button:hover,.st-key-mission_nav_II button:hover,.st-key-mission_nav_III button:hover,
+.st-key-mission_nav_IV button:hover,.st-key-mission_nav_V button:hover{
+    transform:translateY(2px)!important;box-shadow:0 3px 0 rgba(0,0,0,.18),0 6px 10px rgba(0,0,0,.10)!important}
+.st-key-mission_nav_I button:active,.st-key-mission_nav_II button:active,.st-key-mission_nav_III button:active,
+.st-key-mission_nav_IV button:active,.st-key-mission_nav_V button:active{
+    transform:translateY(5px)!important;box-shadow:0 1px 0 rgba(0,0,0,.18)!important}
 </style>
 """, unsafe_allow_html=True)
 
@@ -337,30 +373,36 @@ def lab_animation(level):
 
 def module_nav():
     st.subheader("🧭 Navegación por módulos")
-    items=[]
-    colors=["mod1","mod2","mod3","mod4","mod5"]
-    icons=["🧠","🧪","💧","⚗️","🐾"]
-    for (mod,levels),css,icon in zip(MODULES.items(),colors,icons):
-        done=sum(1 for l in levels if st.session_state.solved.get(l))
-        items.append(f'<a class="modbtn {css}" href="?level={levels[0]}">{icon}<br>{mod}<span class="mstate">{done}/{len(levels)} completadas</span></a>')
-    st.markdown('<div class="module-nav-grid">'+''.join(items)+'</div>',unsafe_allow_html=True)
-    try:
-        q=st.query_params.get("level")
-        if q:
-            q=int(q)
-            if 1<=q<=TOTAL and q!=st.session_state.level:
-                st.session_state.level=q
-                st.query_params.clear()
+
+    module_icons=["🧠","🧪","💧","⚗️","🐾"]
+
+    with st.container(key="module_nav_container"):
+        cols=st.columns(5)
+        for col,(icon,(mod,levels)) in zip(cols,zip(module_icons,MODULES.items())):
+            done=sum(1 for l in levels if st.session_state.solved.get(l))
+            label=f"{icon}  {mod}  ·  {done}/{len(levels)} completadas"
+            if col.button(label,use_container_width=True,key=f"module_btn_{levels[0]}"):
+                st.session_state.level=levels[0]
                 st.rerun()
-    except Exception:
-        pass
+
     current=MOD_BY_LEVEL[st.session_state.level]
     st.caption(f"Módulo actual: **{current}**")
-    subcols=st.columns(len(MODULES[current]))
-    for col,l in zip(subcols,MODULES[current]):
-        state="✓" if st.session_state.solved.get(l) else "●" if st.session_state.level==l else "○"
-        if col.button(f"{state} Misión {l} · {TITLES[l]}",use_container_width=True,key=f"go_{l}"):
-            goto(l)
+
+    roman=current.split("·")[0].strip()
+    keymap={"I":"mission_nav_I","II":"mission_nav_II","III":"mission_nav_III","IV":"mission_nav_IV","V":"mission_nav_V"}
+    container_key=keymap.get(roman,"mission_nav_I")
+
+    with st.container(key=container_key):
+        subcols=st.columns(len(MODULES[current]))
+        for col,l in zip(subcols,MODULES[current]):
+            state="✓" if st.session_state.solved.get(l) else "●" if st.session_state.level==l else "○"
+            if col.button(
+                f"{state} Misión {l} · {TITLES[l]}",
+                use_container_width=True,
+                key=f"go_{l}"
+            ):
+                st.session_state.level=l
+                st.rerun()
 
 def prev_next():
     a,b,_=st.columns([1,1,5])
@@ -370,7 +412,7 @@ def prev_next():
         goto(st.session_state.level+1)
 
 if not st.session_state.started:
-    st.markdown('<div class="hero"><h1>⚗️ TOX-PREP 2.3</h1><p>Simulador veterinario de soluciones, diluciones y cálculos aplicados a Toxicología</p></div>',unsafe_allow_html=True)
+    st.markdown('<div class="hero"><h1>⚗️ TOX-PREP 2.4</h1><p>Simulador veterinario de soluciones, diluciones y cálculos aplicados a Toxicología</p></div>',unsafe_allow_html=True)
     st.markdown('<div class="route">INTERPRETAR → CALCULAR → PREPARAR → VERIFICAR → ROTULAR → CONTEXTO TOXICOLÓGICO</div>',unsafe_allow_html=True)
     cols=st.columns(5)
     for c,(m,ls) in zip(cols,MODULES.items()):
@@ -386,7 +428,7 @@ if not st.session_state.started:
             st.warning("Escriba un nombre.")
     st.stop()
 
-st.markdown('<div class="hero"><h1>⚗️ TOX-PREP 2.3</h1><p>Laboratorio virtual veterinario de preparación aplicada a Toxicología</p></div>',unsafe_allow_html=True)
+st.markdown('<div class="hero"><h1>⚗️ TOX-PREP 2.4</h1><p>Laboratorio virtual veterinario de preparación aplicada a Toxicología</p></div>',unsafe_allow_html=True)
 c1,c2,c3=st.columns([5,1,1])
 c1.progress(st.session_state.level/TOTAL,text=f"Misión {st.session_state.level}/{TOTAL}")
 c2.metric("Puntaje",f"{st.session_state.score}/100")
@@ -628,4 +670,4 @@ elif L==10:
         st.button("Repetir laboratorio",on_click=reset,type="primary")
 
 st.divider()
-st.caption("TOX-PREP 2.3 · Recurso educativo para medicina veterinaria y toxicología. No sustituye protocolos clínicos, fichas técnicas, evaluación del paciente ni normativa institucional.")
+st.caption("TOX-PREP 2.4 · Recurso educativo para medicina veterinaria y toxicología. No sustituye protocolos clínicos, fichas técnicas, evaluación del paciente ni normativa institucional.")
