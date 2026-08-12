@@ -282,6 +282,30 @@ box-shadow:0 5px 12px rgba(20,50,80,.08);margin-bottom:14px}
 box-shadow:0 0 0 12px rgba(231,155,60,.12),0 10px 20px rgba(0,0,0,.10)}
 .checkcard{position:absolute;padding:1rem 1.1rem;border-radius:16px;background:#fff;border:1px solid #c9d7e4;
 box-shadow:0 5px 13px rgba(0,0,0,.08);font-weight:850;color:#173e6d;line-height:1.5}
+
+/* --- Misión 3 · composición corregida --- */
+.m3-scene{min-height:560px}
+.m3-station{position:absolute;bottom:94px;text-align:center;color:#173e6d;font-weight:900}
+.m3-cap{display:inline-block;background:#fff;border:1px solid #c8d8e6;border-radius:12px;padding:8px 13px;box-shadow:0 5px 12px rgba(20,50,80,.08);margin-bottom:16px}
+.m3-cylinder{position:relative;margin:0 auto;width:82px;height:205px;border:5px solid #3c5b74;border-radius:9px 9px 18px 18px;background:rgba(255,255,255,.8);overflow:hidden}
+.m3-cylinder:after{content:"";position:absolute;left:12px;top:18px;width:34px;height:158px;background:repeating-linear-gradient(to bottom,transparent 0,transparent 12px,#7e94aa 13px,#7e94aa 14px)}
+.m3-cyl-liq{position:absolute;left:0;right:0;bottom:0;height:48%;background:linear-gradient(#f3be6b,#dc882c)}
+.m3-pipette{position:relative;margin:72px auto 0;width:190px;height:20px;background:linear-gradient(90deg,#c5d6e5,#f8fbfd);border:4px solid #45637b;border-radius:12px;transform:rotate(10deg);animation:m3pipe 4.8s ease-in-out infinite}
+.m3-pipette:after{content:"";position:absolute;right:-34px;top:3px;border-left:36px solid #45637b;border-top:7px solid transparent;border-bottom:7px solid transparent}
+@keyframes m3pipe{0%,15%{transform:translate(-15px,-10px) rotate(10deg)}45%,70%{transform:translate(35px,18px) rotate(10deg)}100%{transform:translate(-15px,-10px) rotate(10deg)}}
+.m3-flask{position:relative;margin:58px auto 0;width:128px;height:132px;border:5px solid #405e77;border-radius:50% 50% 42% 42%;background:rgba(255,255,255,.82)}
+.m3-flask:before{content:"";position:absolute;width:40px;height:86px;border-left:5px solid #405e77;border-right:5px solid #405e77;left:39px;top:-80px;background:rgba(255,255,255,.84)}
+.m3-flask:after{content:"";position:absolute;width:53px;border-top:3px solid #d94b4b;left:33px;top:-34px;z-index:8}
+.m3-flask-liq{position:absolute;left:5px;right:5px;bottom:5px;height:72%;border-radius:0 0 52px 52px;background:linear-gradient(#75c7ad,#379a79);animation:m3fill 5s ease-in-out infinite}
+@keyframes m3fill{0%,18%{height:25%}55%,100%{height:72%}}
+.m3-drop{position:absolute;width:10px;height:14px;border-radius:55%;background:#5db4d6;left:59px;top:-62px;animation:drop31 1.4s linear infinite;z-index:10}
+.m3-meniscus{position:absolute;left:50%;transform:translateX(-50%);top:-118px;width:160px;background:#fff7df;border:1px solid #e6c777;border-radius:10px;padding:7px 9px;color:#6a5317;font-size:.75rem;line-height:1.25;box-shadow:0 4px 10px rgba(0,0,0,.05)}
+.m3-mix{position:relative;margin:52px auto 0;width:112px;height:142px;border:5px solid #405e77;border-radius:18px 18px 34px 34px;background:rgba(255,255,255,.82);overflow:hidden}
+.m3-mix:before{content:"↻";position:absolute;z-index:4;left:34px;top:34px;font-size:2.8rem;color:#244a70;animation:m3spin 1.4s linear infinite}
+.m3-mix-liq{position:absolute;left:4px;right:4px;bottom:4px;height:48%;border-radius:0 0 28px 28px;background:linear-gradient(#75c7ad,#379a79)}
+@keyframes m3spin{to{transform:rotate(360deg)}}
+.m3-arrow{position:absolute;font-size:2.8rem;color:#86a8c5;top:292px;animation:arrowpulse 1.7s ease-in-out infinite}
+
 </style>
 """, unsafe_allow_html=True)
 
@@ -622,17 +646,18 @@ def master_scene(level):
 
     if level==3:
         st.markdown("""
-        <div class="master-scene">
+        <div class="master-scene m3-scene">
           <div class="ms-title">🧪 Preparación volumétrica · % v/v</div>
-          <div class="ms-sub">Medir el componente líquido → transferir → aforar → homogeneizar → rotular.</div>
-          <div class="ms-station" style="left:6%;width:170px"><div class="ms-cap">1 · MEDIR</div><div class="graduated"><div class="vliquid orange"></div></div></div>
-          <div class="ms-arrow" style="left:25%">➜</div>
-          <div class="ms-station" style="left:34%;width:180px"><div class="ms-cap">2 · TRANSFERIR</div><div class="micropip" style="left:-5px;top:70px"></div></div>
-          <div class="ms-arrow" style="left:53%">➜</div>
-          <div class="ms-station" style="right:17%;width:175px"><div class="ms-cap">3 · AFORAR</div><div class="flask31"><div class="flaskliq"></div><div class="drop31"></div><div class="meniscus-note">Menisco alineado con la marca.</div></div></div>
-          <div class="ms-arrow" style="right:5%">➜</div>
+          <div class="ms-sub">Medir el componente líquido → transferir al matraz → añadir diluyente y aforar → homogeneizar.</div>
+          <div class="m3-station" style="left:4%;width:150px"><div class="m3-cap">1 · MEDIR</div><div class="m3-cylinder"><div class="m3-cyl-liq"></div></div></div>
+          <div class="m3-arrow" style="left:22%">➜</div>
+          <div class="m3-station" style="left:29%;width:220px"><div class="m3-cap">2 · TRANSFERIR</div><div class="m3-pipette"></div></div>
+          <div class="m3-arrow" style="left:48%">➜</div>
+          <div class="m3-station" style="left:56%;width:190px"><div class="m3-cap">3 · AFORAR</div><div class="m3-flask"><div class="m3-flask-liq"></div><div class="m3-drop"></div><div class="m3-meniscus">Ajustar el menisco exactamente a la marca de aforo.</div></div></div>
+          <div class="m3-arrow" style="left:76%">➜</div>
+          <div class="m3-station" style="right:3%;width:150px"><div class="m3-cap">4 · HOMOGENEIZAR</div><div class="m3-mix"><div class="m3-mix-liq"></div></div></div>
         </div>
-        <div class="ms-process"><div class="ms-step">🧪 Medir</div><div class="ms-step">💧 Transferir</div><div class="ms-step">⚗️ Aforar</div><div class="ms-step">🔄 Homogeneizar</div><div class="ms-step">🏷️ Rotular</div><div class="ms-step">✅ Verificar</div></div>
+        <div class="ms-process"><div class="ms-step">🧪 Medir</div><div class="ms-step">💧 Transferir</div><div class="ms-step">🚿 Añadir diluyente</div><div class="ms-step">⚗️ Aforar</div><div class="ms-step">🔄 Homogeneizar</div><div class="ms-step">🏷️ Rotular y verificar</div></div>
         """,unsafe_allow_html=True)
 
     elif level in (4,5):
