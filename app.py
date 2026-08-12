@@ -3,7 +3,7 @@ import time
 import streamlit as st
 import pandas as pd
 
-st.set_page_config(page_title="TOX-PREP 3.0", page_icon="⚗️", layout="wide")
+st.set_page_config(page_title="TOX-PREP 3.1", page_icon="⚗️", layout="wide")
 
 st.markdown("""
 <style>
@@ -190,7 +190,7 @@ box-shadow:0 0 0 10px rgba(231,155,60,.12),0 10px 20px rgba(0,0,0,.10);animation
 .bubble{position:absolute;width:12px;height:12px;border-radius:50%;background:rgba(255,255,255,.72);animation:bubbleUp 2.6s linear infinite}
 @keyframes bubbleUp{0%{transform:translateY(80px);opacity:0}20%{opacity:.8}100%{transform:translateY(-90px);opacity:0}}
 
-/* --- TOX-PREP 3.0 virtual laboratory --- */
+/* --- TOX-PREP 3.1 virtual laboratory --- */
 .virtual-lab{position:relative;min-height:520px;border-radius:26px;border:1px solid #c8d7e5;
 background:linear-gradient(180deg,#fbfdff 0%,#edf4fb 64%,#dbe7f0 64%,#c6d5e2 100%);
 overflow:hidden;margin:1rem 0;box-shadow:inset 0 -16px 38px rgba(28,60,94,.08),0 8px 20px rgba(20,50,90,.06)}
@@ -219,6 +219,47 @@ overflow:hidden;margin:1rem 0;box-shadow:inset 0 -16px 38px rgba(28,60,94,.08),0
 .vstep.done{background:#eef8f1;border-color:#b9d9c2}
 .material-card{padding:.85rem;border:1px solid #d9e4ee;border-radius:14px;background:white;min-height:90px;text-align:center;box-shadow:0 4px 10px rgba(0,0,0,.06)}
 .material-card b{display:block;color:#173d6d;margin-top:.25rem}
+
+/* --- TOX-PREP 3.1 · scientific lab scene --- */
+.lab31{position:relative;min-height:620px;border-radius:26px;border:1px solid #c7d8e8;
+background:linear-gradient(180deg,#fcfeff 0%,#f4f9fd 72%,#dbe7f0 72%,#c9d7e3 100%);
+overflow:hidden;margin:1rem 0 1.2rem;box-shadow:0 8px 22px rgba(25,60,95,.07)}
+.lab31-title{position:absolute;left:30px;top:22px;font-size:1.45rem;font-weight:900;color:#0e3769}
+.lab31-sub{position:absolute;left:30px;top:63px;color:#60758b;font-weight:650}
+.station{position:absolute;bottom:86px;text-align:center;color:#173e6d;font-weight:900}
+.stepcap{display:inline-block;background:#fff;border:1px solid #c8d8e6;border-radius:12px;padding:8px 13px;
+box-shadow:0 5px 12px rgba(20,50,80,.08);margin-bottom:14px}
+.arrow31{position:absolute;font-size:3.2rem;color:#86a8c5;top:315px;animation:arrowpulse 1.7s ease-in-out infinite}
+@keyframes arrowpulse{50%{transform:translateX(10px);opacity:.55}}
+.balance-body{width:190px;height:105px;border:5px solid #456079;border-radius:18px;background:linear-gradient(#f8fafc,#dce5ec);position:relative}
+.balance-pan{position:absolute;width:120px;height:13px;background:#8598a8;border-radius:50%;left:31px;top:-18px}
+.balance-screen{position:absolute;width:76px;height:34px;background:#cde7d7;border:3px solid #466075;border-radius:7px;left:53px;top:48px;
+font:800 14px monospace;color:#173e55;display:flex;align-items:center;justify-content:center}
+.weighboat{position:absolute;width:70px;height:20px;border:3px solid #7e91a2;border-radius:50%;left:58px;top:-34px;background:#fff}
+.powder{position:absolute;width:45px;height:12px;border-radius:50%;background:#e7e1cc;left:70px;top:-31px;animation:powderfade 5.5s infinite}
+@keyframes powderfade{0%,22%{opacity:1}35%,100%{opacity:.25}}
+.beaker31{width:150px;height:170px;border:5px solid #49657d;border-top:0;border-radius:0 0 20px 20px;position:relative;background:rgba(255,255,255,.75);overflow:hidden}
+.beaker31:before{content:"";position:absolute;left:18px;right:18px;top:30px;height:95px;background:repeating-linear-gradient(to bottom,transparent 0,transparent 18px,#a7b7c5 19px,#a7b7c5 20px);opacity:.65}
+.liq31{position:absolute;left:0;right:0;bottom:0;height:45%;background:linear-gradient(#77bedc,#3d94ba);animation:mixliq 5.5s ease-in-out infinite}
+@keyframes mixliq{0%,15%{height:22%;opacity:.75}38%,78%{height:55%;opacity:1}100%{height:48%}}
+.stirrod{position:absolute;width:8px;height:155px;background:linear-gradient(90deg,#dceaf3,#91aabd);border-radius:5px;left:76px;top:-35px;transform:rotate(12deg);animation:stir 1.1s ease-in-out infinite alternate;z-index:4}
+@keyframes stir{from{transform:translateX(-14px) rotate(10deg)}to{transform:translateX(14px) rotate(-8deg)}}
+.washbottle{position:absolute;width:72px;height:90px;border:4px solid #4c687f;border-radius:14px 14px 22px 22px;background:rgba(255,255,255,.8);right:-65px;top:45px}
+.washbottle:before{content:"";position:absolute;width:65px;height:8px;background:#4c687f;right:-45px;top:-18px;transform:rotate(-28deg);border-radius:8px}
+.flask31{width:165px;height:170px;border:5px solid #405e77;border-radius:50% 50% 42% 42%;position:relative;background:rgba(255,255,255,.8);overflow:visible}
+.flask31:before{content:"";position:absolute;width:52px;height:125px;border-left:5px solid #405e77;border-right:5px solid #405e77;left:52px;top:-116px;background:rgba(255,255,255,.82)}
+.flask31:after{content:"";position:absolute;width:67px;border-top:3px solid #d94b4b;left:46px;top:-50px;z-index:8}
+.flaskliq{position:absolute;left:5px;right:5px;bottom:5px;height:30%;border-radius:0 0 65px 65px;background:linear-gradient(#75c7ad,#379a79);animation:aforo 6s ease-in-out infinite}
+@keyframes aforo{0%,18%{height:12%}50%{height:58%}72%,100%{height:84%}}
+.drop31{position:absolute;width:11px;height:16px;border-radius:55% 55% 60% 60%;background:#5db4d6;left:76px;top:-88px;animation:drop31 1.4s linear infinite;z-index:10}
+@keyframes drop31{0%{transform:translateY(0);opacity:0}25%{opacity:1}85%{transform:translateY(92px);opacity:1}100%{transform:translateY(102px);opacity:0}}
+.meniscus-note{position:absolute;right:-42px;top:-69px;font-size:.78rem;background:#fff7df;border:1px solid #e6c777;border-radius:9px;padding:6px 8px;color:#6a5317;width:150px}
+.transferline{position:absolute;width:115px;height:8px;background:#79b9d4;border-radius:10px;transform:rotate(-15deg);animation:transfer31 2.2s ease-in-out infinite}
+@keyframes transfer31{0%,15%{width:20px;opacity:.1}50%{width:115px;opacity:1}100%{width:20px;opacity:.1}}
+.labelbottle{width:120px;height:155px;border:5px solid #435f77;border-radius:15px 15px 25px 25px;background:#fdfefe;position:relative}
+.labelbottle:before{content:"SOLUCIÓN\A % p/v\A Fecha • Grupo";white-space:pre;position:absolute;left:10px;right:10px;top:47px;background:#eef5fb;border:1px solid #bdd0e0;border-radius:6px;padding:8px 3px;font-size:.7rem;line-height:1.4}
+.process31{display:grid;grid-template-columns:repeat(6,1fr);gap:8px;margin:.5rem 0 1rem}
+.p31{padding:.72rem .45rem;text-align:center;border-radius:12px;background:#f7fbfe;border:1px solid #d2dfeb;color:#234c75;font-weight:800;font-size:.86rem}
 </style>
 """, unsafe_allow_html=True)
 
@@ -508,6 +549,50 @@ def lab_animation(level):
     st.markdown(html,unsafe_allow_html=True)
 
 
+
+def mission2_master_scene():
+    st.markdown("""
+    <div class="lab31">
+      <div class="lab31-title">🧪 Preparación gravimétrica–volumétrica · % p/v</div>
+      <div class="lab31-sub">Secuencia técnica: pesar → disolver → transferir cuantitativamente → aforar → homogeneizar → rotular.</div>
+
+      <div class="station" style="left:4%;width:200px">
+        <div class="stepcap">1 · PESAR</div>
+        <div class="balance-body"><div class="balance-pan"></div><div class="weighboat"></div><div class="powder"></div><div class="balance-screen">5.000 g</div></div>
+      </div>
+
+      <div class="arrow31" style="left:20%">➜</div>
+
+      <div class="station" style="left:27%;width:170px">
+        <div class="stepcap">2 · DISOLVER</div>
+        <div class="beaker31"><div class="liq31"></div><div class="stirrod"></div></div>
+        <div class="washbottle"></div>
+      </div>
+
+      <div class="arrow31" style="left:44%">➜</div>
+      <div class="transferline" style="left:46%;top:390px"></div>
+
+      <div class="station" style="left:54%;width:175px">
+        <div class="stepcap">3 · AFORAR</div>
+        <div class="flask31"><div class="flaskliq"></div><div class="drop31"></div><div class="meniscus-note">Ajustar el menisco a la línea de aforo.</div></div>
+      </div>
+
+      <div class="arrow31" style="left:72%">➜</div>
+
+      <div class="station" style="right:5%;width:145px">
+        <div class="stepcap">4 · ROTULAR</div>
+        <div class="labelbottle"></div>
+      </div>
+    </div>
+
+    <div class="process31">
+      <div class="p31">⚖️ Pesar</div><div class="p31">🥛 Disolver</div><div class="p31">🚿 Transferir + lavar</div>
+      <div class="p31">⚗️ Aforar</div><div class="p31">🔄 Homogeneizar</div><div class="p31">🏷️ Rotular</div>
+    </div>
+    """, unsafe_allow_html=True)
+
+    st.info("📌 **Principio técnico:** en una preparación % p/v, el volumen indicado corresponde al **volumen final de la solución**, no al volumen de solvente que se agrega inicialmente.")
+
 def virtual_lab_intro(level):
     if level not in (2,3,4):
         return
@@ -642,7 +727,7 @@ def prev_next():
         goto(st.session_state.level+1)
 
 if not st.session_state.started:
-    st.markdown('<div class="hero"><h1>⚗️ TOX-PREP 3.0</h1><p>Simulador veterinario de soluciones, diluciones y cálculos aplicados a Toxicología</p></div>',unsafe_allow_html=True)
+    st.markdown('<div class="hero"><h1>⚗️ TOX-PREP 3.1</h1><p>Simulador veterinario de soluciones, diluciones y cálculos aplicados a Toxicología</p></div>',unsafe_allow_html=True)
     st.markdown('<div class="route">INTERPRETAR → CALCULAR → PREPARAR → VERIFICAR → ROTULAR → CONTEXTO TOXICOLÓGICO</div>',unsafe_allow_html=True)
     cols=st.columns(5)
     for c,(m,ls) in zip(cols,MODULES.items()):
@@ -658,7 +743,7 @@ if not st.session_state.started:
             st.warning("Escriba un nombre.")
     st.stop()
 
-st.markdown('<div class="hero"><h1>⚗️ TOX-PREP 3.0</h1><p>Laboratorio virtual veterinario de preparación aplicada a Toxicología</p></div>',unsafe_allow_html=True)
+st.markdown('<div class="hero"><h1>⚗️ TOX-PREP 3.1</h1><p>Laboratorio virtual veterinario de preparación aplicada a Toxicología</p></div>',unsafe_allow_html=True)
 c1,c2,c3=st.columns([5,1,1])
 c1.progress(st.session_state.level/TOTAL,text=f"Misión {st.session_state.level}/{TOTAL}")
 c2.metric("Puntaje",f"{st.session_state.score}/100")
@@ -672,7 +757,10 @@ calc_guide(L)
 if L==1:
     unit_converter()
 if L in (2,3,4):
-    virtual_lab_intro(L)
+    if L==2:
+        mission2_master_scene()
+    else:
+        virtual_lab_intro(L)
     material_ok=material_selector(L)
     simulation_ok=interactive_steps(L)
 else:
@@ -907,4 +995,4 @@ elif L==10:
         st.button("Repetir laboratorio",on_click=reset,type="primary")
 
 st.divider()
-st.caption("TOX-PREP 3.0 · Recurso educativo para medicina veterinaria y toxicología. No sustituye protocolos clínicos, fichas técnicas, evaluación del paciente ni normativa institucional.")
+st.caption("TOX-PREP 3.1 · Recurso educativo para medicina veterinaria y toxicología. No sustituye protocolos clínicos, fichas técnicas, evaluación del paciente ni normativa institucional.")
