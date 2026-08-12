@@ -3,7 +3,7 @@ import time
 import streamlit as st
 import pandas as pd
 
-st.set_page_config(page_title="TOX-PREP 2.0", page_icon="⚗️", layout="wide")
+st.set_page_config(page_title="TOX-PREP 2.1", page_icon="⚗️", layout="wide")
 
 st.markdown("""
 <style>
@@ -21,6 +21,15 @@ background:linear-gradient(135deg,#ffffff 0%,#f3f8fc 100%);box-shadow:0 4px 16px
 .badge{display:inline-block;background:#eaf2fb;color:#173e78;padding:.25rem .7rem;border-radius:999px;font-weight:800}
 .small{font-size:.88rem;color:#667085}
 div[data-testid="stMetric"]{border:1px solid #e1e8f0;padding:.55rem;border-radius:13px;background:#fff}
+.pearson-wrap{padding:1.4rem;border:1px solid #cbd9e8;border-radius:20px;background:linear-gradient(135deg,#ffffff,#f5f9fd);margin:.8rem 0}
+.pearson-title{text-align:center;font-size:1.35rem;font-weight:800;color:#12315e;margin-bottom:1rem}
+.pearson-grid{display:grid;grid-template-columns:1fr 1.3fr 1fr;gap:1rem;align-items:center}
+.pearson-box{padding:1.3rem;border-radius:18px;border:2px solid #d7e3ef;background:white;text-align:center;min-height:135px;display:flex;flex-direction:column;justify-content:center}
+.pearson-box strong{font-size:1.8rem;color:#173d6d}.pearson-box span{font-size:.95rem;color:#667085}
+.pearson-center{padding:1.5rem;border-radius:50%;border:3px solid #9fb7d1;background:#eef5fb;text-align:center;min-width:150px;min-height:150px;display:flex;flex-direction:column;justify-content:center}
+.pearson-center strong{font-size:2rem;color:#12315e}
+.arrowbig{text-align:center;font-size:2.2rem;font-weight:900;color:#486b94}
+.resultbig{padding:1rem;border-radius:16px;background:#eef7f1;border:1px solid #c8dfcf;text-align:center;font-size:1.2rem;font-weight:700}
 </style>
 """, unsafe_allow_html=True)
 
@@ -152,7 +161,7 @@ def prev_next():
         goto(st.session_state.level+1)
 
 if not st.session_state.started:
-    st.markdown('<div class="hero"><h1>⚗️ TOX-PREP 2.0</h1><p>Simulador veterinario de soluciones, diluciones y cálculos aplicados a Toxicología</p></div>',unsafe_allow_html=True)
+    st.markdown('<div class="hero"><h1>⚗️ TOX-PREP 2.1</h1><p>Simulador veterinario de soluciones, diluciones y cálculos aplicados a Toxicología</p></div>',unsafe_allow_html=True)
     st.markdown('<div class="route">INTERPRETAR → CALCULAR → PREPARAR → VERIFICAR → ROTULAR → CONTEXTO TOXICOLÓGICO</div>',unsafe_allow_html=True)
     cols=st.columns(5)
     for c,(m,ls) in zip(cols,MODULES.items()):
@@ -168,7 +177,7 @@ if not st.session_state.started:
             st.warning("Escriba un nombre.")
     st.stop()
 
-st.markdown('<div class="hero"><h1>⚗️ TOX-PREP 2.0</h1><p>Laboratorio virtual veterinario de preparación aplicada a Toxicología</p></div>',unsafe_allow_html=True)
+st.markdown('<div class="hero"><h1>⚗️ TOX-PREP 2.1</h1><p>Laboratorio virtual veterinario de preparación aplicada a Toxicología</p></div>',unsafe_allow_html=True)
 c1,c2,c3=st.columns([5,1,1])
 c1.progress(st.session_state.level/TOTAL,text=f"Misión {st.session_state.level}/{TOTAL}")
 c2.metric("Puntaje",f"{st.session_state.score}/100")
@@ -242,20 +251,130 @@ elif L==6:
     feedback(6); key("Una dilución 1:10 en este ejercicio significa 1 parte de muestra llevada a 10 partes de volumen final."); prev_next()
 
 elif L==7:
-    mission("En un laboratorio veterinario se dispone de dos soluciones de un compuesto: 20 % y 5 %. Se necesitan preparar 300 mL al 10 %. Use el cuadrado de Pearson y convierta la proporción obtenida a volúmenes.")
-    concept(["Cuadrado de Pearson"])
-    st.code("Concentración alta: 20 %\nConcentración objetivo: 10 %\nConcentración baja: 5 %")
-    hi=st.number_input("Partes de la solución al 20 %",0.0,step=1.0,key="7a")
-    lo=st.number_input("Partes de la solución al 5 %",0.0,step=1.0,key="7b")
-    r1=st.number_input("Relación simplificada: parte alta",0.0,step=1.0,key="7r1")
-    r2=st.number_input("Relación simplificada: parte baja",0.0,step=1.0,key="7r2")
-    vhi=st.number_input("Volumen de solución al 20 % para 300 mL finales (mL)",0.0,step=10.0,key="7c")
-    vlo=st.number_input("Volumen de solución al 5 % para 300 mL finales (mL)",0.0,step=10.0,key="7d")
-    verify=st.number_input("Concentración final verificada (%)",0.0,step=.5,key="7e")
-    if st.button("Comprobar",key="b7"):
-        ok=all([math.isclose(hi,5),math.isclose(lo,10),math.isclose(r1,1),math.isclose(r2,2),math.isclose(vhi,100),math.isclose(vlo,200),math.isclose(verify,10)])
-        submit(7,ok,"Pearson: **5 partes de 20 % + 10 partes de 5 % = 1:2**. Para 300 mL: **100 mL + 200 mL**. Verificación: **10 %**.","Reste diagonalmente en valor absoluto, simplifique 5:10 y reparta 300 mL según 1:2.")
-    feedback(7); key("El cuadrado de Pearson entrega una proporción; luego esa proporción debe convertirse a cantidades o volúmenes."); prev_next()
+    mission("Seleccione un escenario de fluidoterapia veterinaria para aplicar el cuadrado de Pearson. El objetivo es comprender cómo ajustar una concentración, no establecer un protocolo terapéutico.")
+
+    concept(["Cuadrado de Pearson","Solución hipertónica","Volumen final"])
+
+    mode=st.radio(
+        "¿Qué desea preparar?",
+        [
+            "🔵 Escenario A · Disminuir NaCl 0,9 % hasta 0,7 % (ejercicio de solución hipotónica)",
+            "🔴 Escenario B · Obtener NaCl 7,5 % mezclando NaCl 20 % y NaCl 0,9 % (ejercicio de solución hipertónica)"
+        ],
+        index=None,
+        key="7mode"
+    )
+
+    if mode:
+        if mode.startswith("🔵"):
+            high, low, target, total = 0.9, 0.0, 0.7, 300.0
+            high_name="NaCl 0,9 %"
+            low_name="Diluyente 0 % NaCl"
+            final_name="NaCl 0,7 %"
+            expected_hi_parts=0.7
+            expected_lo_parts=0.2
+            expected_hi_vol=233.33
+            expected_lo_vol=66.67
+            physiol="Hipotónica respecto a NaCl 0,9 %"
+            note="Para fines aritméticos, el diluyente se representa como 0 % NaCl. Este escenario es educativo y no indica que deba administrarse agua estéril por vía intravenosa."
+        else:
+            high, low, target, total = 20.0, 0.9, 7.5, 500.0
+            high_name="NaCl 20 %"
+            low_name="NaCl 0,9 %"
+            final_name="NaCl 7,5 %"
+            expected_hi_parts=6.6
+            expected_lo_parts=12.5
+            expected_hi_vol=172.77
+            expected_lo_vol=327.23
+            physiol="Hipertónica respecto a NaCl 0,9 %"
+            note="El ejercicio utiliza concentraciones habituales como referencia académica. La preparación y uso clínico reales dependen de productos autorizados, protocolos, especie y estado del paciente."
+
+        st.info(note)
+
+        st.markdown(f"""
+        <div class="pearson-wrap">
+          <div class="pearson-title">🎬 Cuadrado de Pearson · Construcción visual</div>
+          <div class="pearson-grid">
+            <div class="pearson-box"><span>Concentración alta</span><strong>{high:g} %</strong><span>{high_name}</span></div>
+            <div class="arrowbig">↘</div>
+            <div class="pearson-box"><span>Diferencia diagonal</span><strong>|{target:g} − {low:g}|</strong><span>partes de la solución alta</span></div>
+
+            <div class="arrowbig">↗</div>
+            <div class="pearson-center"><span>Objetivo</span><strong>{target:g} %</strong><span>{final_name}</span></div>
+            <div class="arrowbig">↘</div>
+
+            <div class="pearson-box"><span>Concentración baja</span><strong>{low:g} %</strong><span>{low_name}</span></div>
+            <div class="arrowbig">↗</div>
+            <div class="pearson-box"><span>Diferencia diagonal</span><strong>|{high:g} − {target:g}|</strong><span>partes de la solución baja</span></div>
+          </div>
+        </div>
+        """, unsafe_allow_html=True)
+
+        if st.button("▶ Reproducir Pearson paso a paso", key="pearson_anim"):
+            ph=st.empty()
+            steps=[
+                f"1. Coloque la concentración alta: {high:g} %.",
+                f"2. Coloque la concentración objetivo en el centro: {target:g} %.",
+                f"3. Coloque la concentración baja: {low:g} %.",
+                f"4. Reste diagonalmente en valor absoluto: |{target:g} − {low:g}| = {expected_hi_parts:g}.",
+                f"5. Reste la otra diagonal: |{high:g} − {target:g}| = {expected_lo_parts:g}.",
+                f"6. La proporción es {expected_hi_parts:g} partes de {high_name} por {expected_lo_parts:g} partes de {low_name}.",
+                f"7. Convierta esa proporción al volumen final requerido: {total:g} mL."
+            ]
+            for s in steps:
+                ph.info(s)
+                time.sleep(.65)
+            ph.success("Animación completada. Ahora construya usted el resultado.")
+
+        st.subheader("Paso 1 · Construya el cuadrado")
+        c1,c2=st.columns(2)
+        hi_parts=c1.number_input(f"Partes de {high_name}",min_value=0.0,step=.1,key="7a")
+        lo_parts=c2.number_input(f"Partes de {low_name}",min_value=0.0,step=.1,key="7b")
+
+        st.subheader("Paso 2 · Convierta las partes a volumen")
+        st.caption(f"Volumen final requerido: {total:g} mL")
+        c3,c4=st.columns(2)
+        vhi=c3.number_input(f"Volumen de {high_name} (mL)",min_value=0.0,step=1.0,key="7c")
+        vlo=c4.number_input(f"Volumen de {low_name} (mL)",min_value=0.0,step=1.0,key="7d")
+
+        st.subheader("Paso 3 · Verifique e interprete")
+        verify=st.number_input("Concentración final calculada (%)",min_value=0.0,step=.1,key="7e")
+        interpretation=st.radio(
+            "Respecto a NaCl 0,9 %, la preparación final se clasifica en este ejercicio como:",
+            ["Hipotónica","Isotónica","Hipertónica"],
+            index=None,
+            key="7f"
+        )
+
+        correct_interp="Hipotónica" if target<0.9 else "Hipertónica" if target>0.9 else "Isotónica"
+
+        if st.button("Comprobar",key="b7"):
+            ok=(
+                math.isclose(hi_parts,expected_hi_parts,abs_tol=.05) and
+                math.isclose(lo_parts,expected_lo_parts,abs_tol=.05) and
+                math.isclose(vhi,expected_hi_vol,abs_tol=.6) and
+                math.isclose(vlo,expected_lo_vol,abs_tol=.6) and
+                math.isclose(verify,target,abs_tol=.05) and
+                interpretation==correct_interp
+            )
+            if mode.startswith("🔵"):
+                good=f"Pearson: **0,7 partes de NaCl 0,9 % + 0,2 partes de diluyente**. Para 300 mL: aproximadamente **233,3 mL + 66,7 mL**. La preparación final es **hipotónica** respecto a NaCl 0,9 %."
+                hint="Calcule |0,7−0| y |0,9−0,7|. Luego reparta 300 mL según 0,7:0,2."
+            else:
+                good=f"Pearson: **6,6 partes de NaCl 20 % + 12,5 partes de NaCl 0,9 %**. Para 500 mL: aproximadamente **172,8 mL + 327,2 mL**. La preparación final es **hipertónica** respecto a NaCl 0,9 %."
+                hint="Calcule |7,5−0,9| y |20−7,5|. Luego reparta 500 mL según 6,6:12,5."
+            submit(7,ok,good,hint)
+
+        feedback(7)
+
+        if st.session_state.solved.get(7):
+            st.markdown(f'<div class="resultbig">Resultado verificado: {final_name} · {physiol}</div>',unsafe_allow_html=True)
+
+        key("El cuadrado de Pearson primero determina una proporción. Después esa proporción se transforma en volúmenes y finalmente se verifica la concentración obtenida.")
+    else:
+        st.info("Seleccione uno de los dos escenarios para comenzar.")
+
+    prev_next()
 
 elif L==8:
     mission("Para preparar un reactivo de laboratorio veterinario se requieren 10 g de compuesto puro, pero el reactivo comercial tiene 80 % de pureza. Calcule la masa que debe pesarse.")
@@ -297,4 +416,4 @@ elif L==10:
         st.button("Repetir laboratorio",on_click=reset,type="primary")
 
 st.divider()
-st.caption("TOX-PREP 2.0 · Recurso educativo para medicina veterinaria y toxicología. No sustituye protocolos clínicos, fichas técnicas, evaluación del paciente ni normativa institucional.")
+st.caption("TOX-PREP 2.1 · Recurso educativo para medicina veterinaria y toxicología. No sustituye protocolos clínicos, fichas técnicas, evaluación del paciente ni normativa institucional.")

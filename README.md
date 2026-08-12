@@ -1,18 +1,12 @@
-# TOX-PREP 2.0
+# TOX-PREP 2.1
 
-Simulador veterinario de preparación de soluciones, diluciones y cálculos aplicados a Toxicología.
+Versión interactiva para medicina veterinaria y toxicología.
 
-## Mejoras de la versión 2.0
-- navegación libre mediante botones por módulos y misiones
-- preparación visual/animada al inicio de cada misión
-- escenarios orientados a medicina veterinaria
-- % p/v y % v/v
-- C1V1=C2V2 con azul de metileno
-- conversión % p/v ↔ mg/mL
-- diluciones seriadas en toxicología analítica
-- cuadrado de Pearson completo
-- corrección por pureza
-- identificación de errores de preparación
-- estación veterinaria final
+## Novedad principal
+La misión de Cuadrado de Pearson incluye dos escenarios seleccionables:
+- preparar una solución hipotónica de NaCl al 0,7 % a partir de NaCl 0,9 % y un diluyente representado como 0 % NaCl para fines aritméticos;
+- preparar una solución hipertónica de NaCl al 7,5 % a partir de NaCl 20 % y NaCl 0,9 %.
 
-Uso exclusivamente educativo.
+Incluye animación visual grande, cálculo de partes, conversión a volúmenes, verificación e interpretación de tonicidad.
+
+Uso exclusivamente educativo; no constituye un protocolo terapéutico.
