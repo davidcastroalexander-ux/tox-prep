@@ -3,7 +3,7 @@ import time
 import streamlit as st
 import pandas as pd
 
-st.set_page_config(page_title="TOX-PREP 2.4", page_icon="⚗️", layout="wide")
+st.set_page_config(page_title="TOX-PREP 2.5", page_icon="⚗️", layout="wide")
 
 st.markdown("""
 <style>
@@ -147,6 +147,48 @@ box-shadow:0 4px 12px rgba(0,0,0,.18);animation:moveMarker 4.5s ease-in-out infi
 .st-key-mission_nav_I button:active,.st-key-mission_nav_II button:active,.st-key-mission_nav_III button:active,
 .st-key-mission_nav_IV button:active,.st-key-mission_nav_V button:active{
     transform:translateY(5px)!important;box-shadow:0 1px 0 rgba(0,0,0,.18)!important}
+
+.scene{position:relative;min-height:460px;margin:.9rem 0 1rem;border:1px solid #cbd9e8;border-radius:26px;
+background:linear-gradient(180deg,#fbfdff 0%,#eef5fb 68%,#dfe9f2 68%,#c8d6e3 100%);
+overflow:hidden;box-shadow:inset 0 -15px 35px rgba(25,58,94,.07),0 7px 18px rgba(18,49,94,.05)}
+.scene-title{position:absolute;left:28px;top:22px;font-weight:900;color:#12315e;font-size:1.35rem;z-index:20}
+.scene-sub{position:absolute;left:28px;top:60px;color:#60758d;font-weight:700;z-index:20}
+.glass{position:absolute;width:125px;height:160px;border:6px solid #294968;border-top:0;border-radius:0 0 34px 34px;
+bottom:70px;background:rgba(255,255,255,.72);overflow:hidden;box-shadow:0 9px 18px rgba(0,0,0,.12)}
+.glass.tall{height:205px;width:145px}
+.sol{position:absolute;left:0;right:0;bottom:0;height:20%;background:linear-gradient(#79bdd9,#398eb5)}
+.sol.green{background:linear-gradient(#79cdb1,#329071)} .sol.orange{background:linear-gradient(#f4c070,#df8a2d)}
+.sol.fill{animation:fillUp 5s ease-in-out infinite}.sol.drain{animation:drainDown 5s ease-in-out infinite}
+@keyframes fillUp{0%,12%{height:12%}55%,85%{height:78%}100%{height:35%}}
+@keyframes drainDown{0%,15%{height:72%}60%,100%{height:18%}}
+.pour-stream{position:absolute;width:13px;height:145px;background:linear-gradient(#86c4df,#3d92b8);border-radius:9px;
+animation:stream 3.5s ease-in-out infinite;opacity:0;z-index:8}
+@keyframes stream{0%,20%{opacity:0;height:5px}30%,75%{opacity:1;height:140px}90%,100%{opacity:0;height:8px}}
+.drop2{position:absolute;width:18px;height:25px;background:#4aa0c8;border-radius:55% 55% 65% 65%;
+transform:rotate(45deg);animation:drop2 1.7s ease-in infinite;z-index:10}
+@keyframes drop2{0%{transform:translateY(0) rotate(45deg);opacity:0}20%{opacity:1}80%{transform:translateY(120px) rotate(45deg);opacity:1}100%{transform:translateY(140px) rotate(45deg);opacity:0}}
+.pipette2{position:absolute;width:220px;height:22px;background:linear-gradient(90deg,#adc2d4,#f8fbfd);
+border:4px solid #48657d;border-radius:12px;transform:rotate(14deg);z-index:12;animation:pipetteTravel 4.4s ease-in-out infinite}
+.pipette2:after{content:"";position:absolute;right:-35px;top:4px;border-left:38px solid #48657d;border-top:6px solid transparent;border-bottom:6px solid transparent}
+@keyframes pipetteTravel{0%,12%{transform:translate(-30px,-15px) rotate(14deg)}45%,75%{transform:translate(90px,35px) rotate(14deg)}100%{transform:translate(-30px,-15px) rotate(14deg)}}
+.stir2{position:absolute;font-size:4rem;color:#344b64;animation:spin2 1.7s linear infinite;z-index:12}
+@keyframes spin2{from{transform:rotate(0)}to{transform:rotate(360deg)}}
+.pulse-arrow{position:absolute;font-size:4rem;color:#6990b3;font-weight:900;animation:pulseArrow2 1.35s ease-in-out infinite;z-index:15}
+@keyframes pulseArrow2{0%,100%{transform:translateX(0);opacity:.35}50%{transform:translateX(16px);opacity:1}}
+.stage-label{position:absolute;padding:.55rem .8rem;background:white;border:1px solid #c8d6e4;border-radius:11px;
+box-shadow:0 4px 10px rgba(0,0,0,.08);font-weight:900;color:#173d6d;z-index:16}
+.stepdot{position:absolute;width:38px;height:38px;border-radius:50%;background:#1f5f96;color:white;display:flex;align-items:center;justify-content:center;
+font-weight:900;box-shadow:0 4px 12px rgba(0,0,0,.16);z-index:20}
+.timeline{position:absolute;left:10%;right:10%;top:105px;height:6px;background:#c9d7e4;border-radius:999px}
+.timeline-run{position:absolute;left:10%;top:105px;height:6px;background:#347aaa;border-radius:999px;animation:timelineGrow 5s ease-in-out infinite}
+@keyframes timelineGrow{0%{width:0}85%,100%{width:80%}}
+.mixbeam{position:absolute;width:210px;height:14px;border-radius:999px;transform-origin:left center;opacity:.75}
+.mixbeam.blue{background:#4c9cc1}.mixbeam.green{background:#47a787}
+.mergecircle{position:absolute;width:155px;height:155px;border-radius:50%;background:radial-gradient(circle,#f7d39b 0%,#e79b3c 65%,#c9781e 100%);
+box-shadow:0 0 0 10px rgba(231,155,60,.12),0 10px 20px rgba(0,0,0,.10);animation:mergePulse 2s ease-in-out infinite}
+@keyframes mergePulse{0%,100%{transform:scale(.96)}50%{transform:scale(1.04)}}
+.bubble{position:absolute;width:12px;height:12px;border-radius:50%;background:rgba(255,255,255,.72);animation:bubbleUp 2.6s linear infinite}
+@keyframes bubbleUp{0%{transform:translateY(80px);opacity:0}20%{opacity:.8}100%{transform:translateY(-90px);opacity:0}}
 </style>
 """, unsafe_allow_html=True)
 
@@ -312,63 +354,127 @@ def unit_converter():
 
 def lab_animation(level):
     if level==1:
-        html="""<div class="convstage">
-        <div class="convtitle">🎬 Conversión visual de unidades</div>
-        <div class="scale-row">
-          <div class="scale-unit">µg</div><div class="scale-unit">mg</div><div class="scale-unit active">g</div>
-          <div class="scale-unit">kg</div><div class="scale-unit">µL</div><div class="scale-unit">mL</div><div class="scale-unit">L</div>
-        </div>
-        <div class="conv-arrow"></div><div class="conv-marker"></div>
-        <div class="conv-label">La masa y el volumen se convierten por separado. Observe el desplazamiento entre órdenes de magnitud y verifique siempre la unidad final.</div>
-        <div class="conv-lab"></div>
-        <div class="conv-badge" style="left:7%;bottom:160px">MASA · µg ↔ mg ↔ g ↔ kg</div>
-        <div class="conv-beaker"></div>
-        <div class="conv-badge" style="right:6%;bottom:175px">VOLUMEN · µL ↔ mL ↔ L</div>
+        # Misión 1 conserva la animación especial de conversión de unidades.
+        return
+
+    if level==2:
+        html="""<div class="scene">
+        <div class="scene-title">🎬 Preparación de una solución % p/v</div>
+        <div class="scene-sub">Pesar → disolver → transferir → aforar → homogeneizar → rotular</div>
+        <div class="timeline"></div><div class="timeline-run"></div>
+        <div class="stepdot" style="left:9%;top:88px">1</div>
+        <div class="stage-label" style="left:5%;bottom:270px">⚖️ PESAR SOLUTO</div>
+        <div class="balance" style="left:7%;bottom:80px"></div>
+        <div class="pulse-arrow" style="left:29%;bottom:150px">➜</div>
+        <div class="stepdot" style="left:40%;top:88px">2</div>
+        <div class="glass" style="left:38%"><div class="sol fill"></div></div>
+        <div class="pour-stream" style="left:43%;top:155px"></div>
+        <div class="stage-label" style="left:35%;bottom:270px">🥛 DISOLVER</div>
+        <div class="pulse-arrow" style="left:58%;bottom:150px">➜</div>
+        <div class="stepdot" style="left:70%;top:88px">3</div>
+        <div class="glass tall" style="right:12%"><div class="sol green fill"></div></div>
+        <div class="drop2" style="right:17%;top:155px"></div>
+        <div class="stir2" style="right:16%;bottom:115px">↻</div>
+        <div class="stage-label" style="right:6%;bottom:310px">⚗️ AFORAR + HOMOGENEIZAR</div>
         </div>"""
-    elif level==2:
-        html='''<div class="labstage"><div class="labtitle">🎬 Preparación % p/v</div>
-        <div class="balance" style="left:6%"></div><div class="labeltag" style="left:5%;bottom:180px">1 · PESAR</div>
-        <div class="arrowmove" style="left:29%;bottom:120px">➜</div>
-        <div class="flask" style="left:43%"><div class="liquid"></div></div>
-        <div class="drop" style="left:49%"></div><div class="labeltag" style="left:41%;bottom:220px">2 · DISOLVER</div>
-        <div class="arrowmove" style="left:62%;bottom:120px">➜</div>
-        <div class="flask" style="right:8%"><div class="liquid green"></div></div>
-        <div class="labeltag" style="right:5%;bottom:220px">3 · AFORAR + ROTULAR</div><div class="bench"></div></div>'''
+
     elif level==3:
-        html='''<div class="labstage"><div class="labtitle">🎬 Preparación % v/v</div>
-        <div class="pipette" style="left:7%;top:130px"></div><div class="labeltag" style="left:8%;bottom:100px">MEDIR VOLUMEN</div>
-        <div class="arrowmove" style="left:37%;bottom:125px">➜</div>
-        <div class="flask" style="left:49%"><div class="liquid orange"></div></div><div class="drop" style="left:55%"></div>
-        <div class="arrowmove" style="left:68%;bottom:125px">➜</div><div class="labeltag" style="right:4%;bottom:115px;font-size:1.15rem">COMPLETAR<br>VOLUMEN FINAL</div><div class="bench"></div></div>'''
+        html="""<div class="scene">
+        <div class="scene-title">🎬 Preparación de una solución % v/v</div>
+        <div class="scene-sub">Medir el componente líquido → transferir → completar hasta el volumen final</div>
+        <div class="timeline"></div><div class="timeline-run"></div>
+        <div class="stepdot" style="left:8%;top:88px">1</div>
+        <div class="pipette2" style="left:5%;top:175px"></div>
+        <div class="stage-label" style="left:5%;bottom:95px">MEDIR VOLUMEN</div>
+        <div class="pulse-arrow" style="left:34%;bottom:150px">➜</div>
+        <div class="stepdot" style="left:47%;top:88px">2</div>
+        <div class="glass" style="left:45%"><div class="sol orange fill"></div></div>
+        <div class="drop2" style="left:50%;top:165px"></div>
+        <div class="stage-label" style="left:41%;bottom:280px">TRANSFERIR</div>
+        <div class="pulse-arrow" style="left:63%;bottom:150px">➜</div>
+        <div class="stepdot" style="left:76%;top:88px">3</div>
+        <div class="glass tall" style="right:9%"><div class="sol green fill"></div></div>
+        <div class="pour-stream" style="right:15%;top:145px"></div>
+        <div class="stir2" style="right:14%;bottom:120px">↻</div>
+        <div class="stage-label" style="right:5%;bottom:315px">COMPLETAR VOLUMEN FINAL</div>
+        </div>"""
+
     elif level in (4,5):
-        html='''<div class="labstage"><div class="labtitle">🎬 Dilución desde solución madre</div>
-        <div class="flask" style="left:7%"><div class="liquid"></div></div><div class="labeltag" style="left:5%;bottom:220px">SOLUCIÓN MADRE</div>
-        <div class="pipette" style="left:29%;top:135px"></div><div class="arrowmove" style="left:51%;bottom:125px">➜</div>
-        <div class="flask" style="right:14%"><div class="liquid green"></div></div><div class="drop" style="right:18%"></div>
-        <div class="labeltag" style="right:8%;bottom:220px">SOLUCIÓN DILUIDA</div><div class="stir" style="right:17%;bottom:105px">↻</div><div class="bench"></div></div>'''
+        html="""<div class="scene">
+        <div class="scene-title">🎬 Dilución desde una solución madre</div>
+        <div class="scene-sub">Tomar V₁ → transferir → completar hasta V₂ → homogeneizar</div>
+        <div class="timeline"></div><div class="timeline-run"></div>
+        <div class="glass" style="left:6%"><div class="sol drain"></div></div>
+        <div class="stage-label" style="left:3%;bottom:285px">SOLUCIÓN MADRE</div>
+        <div class="pipette2" style="left:24%;top:170px"></div>
+        <div class="drop2" style="left:51%;top:215px"></div>
+        <div class="stage-label" style="left:31%;bottom:305px">TOMAR V₁</div>
+        <div class="pulse-arrow" style="left:52%;bottom:150px">➜</div>
+        <div class="glass tall" style="right:12%"><div class="sol green fill"></div></div>
+        <div class="pour-stream" style="right:18%;top:145px"></div>
+        <div class="stir2" style="right:17%;bottom:120px">↻</div>
+        <div class="stage-label" style="right:7%;bottom:325px">COMPLETAR HASTA V₂</div>
+        </div>"""
+
     elif level==6:
-        html='''<div class="labstage"><div class="labtitle">🎬 Dilución seriada</div>
-        <div class="flask" style="left:5%;width:85px;height:115px"><div class="liquid"></div></div>
-        <div class="arrowmove" style="left:23%;bottom:110px">➜</div><div class="flask" style="left:38%;width:85px;height:115px"><div class="liquid green"></div></div>
-        <div class="arrowmove" style="left:56%;bottom:110px">➜</div><div class="flask" style="right:15%;width:85px;height:115px"><div class="liquid orange"></div></div>
-        <div class="labeltag" style="left:3%;bottom:200px">MUESTRA</div><div class="labeltag" style="left:35%;bottom:200px">1ª DILUCIÓN</div>
-        <div class="labeltag" style="right:10%;bottom:200px">2ª DILUCIÓN</div><div class="bench"></div></div>'''
+        html="""<div class="scene">
+        <div class="scene-title">🎬 Dilución seriada</div>
+        <div class="scene-sub">Una alícuota de cada dilución se utiliza para preparar la siguiente</div>
+        <div class="timeline"></div><div class="timeline-run"></div>
+        <div class="glass" style="left:5%;width:105px;height:135px"><div class="sol drain"></div></div>
+        <div class="stage-label" style="left:3%;bottom:260px">MUESTRA ORIGINAL</div>
+        <div class="pipette2" style="left:18%;top:165px"></div>
+        <div class="pulse-arrow" style="left:35%;bottom:145px">➜</div>
+        <div class="glass" style="left:43%;width:105px;height:135px"><div class="sol green fill"></div></div>
+        <div class="stage-label" style="left:40%;bottom:260px">1ª DILUCIÓN</div>
+        <div class="pipette2" style="left:53%;top:190px;animation-delay:1.2s"></div>
+        <div class="pulse-arrow" style="left:70%;bottom:145px">➜</div>
+        <div class="glass" style="right:7%;width:105px;height:135px"><div class="sol orange fill"></div></div>
+        <div class="stage-label" style="right:4%;bottom:260px">2ª DILUCIÓN</div>
+        </div>"""
+
     elif level==7:
-        html='''<div class="labstage"><div class="labtitle">🎬 Pearson: dos concentraciones convergen en un objetivo</div>
-        <div class="flask" style="left:7%"><div class="liquid"></div></div><div class="labeltag" style="left:4%;bottom:220px">CONCENTRACIÓN ALTA</div>
-        <div class="flask" style="left:31%"><div class="liquid green"></div></div><div class="labeltag" style="left:29%;bottom:220px">CONCENTRACIÓN BAJA</div>
-        <div class="arrowmove" style="left:53%;bottom:125px">➜</div><div class="flask" style="right:12%;width:135px;height:165px"><div class="liquid orange"></div></div>
-        <div class="labeltag" style="right:7%;bottom:245px">CONCENTRACIÓN OBJETIVO</div><div class="stir" style="right:17%;bottom:105px">↻</div><div class="bench"></div></div>'''
+        html="""<div class="scene">
+        <div class="scene-title">🎬 Cuadrado de Pearson · Mezcla de concentraciones</div>
+        <div class="scene-sub">Las dos preparaciones convergen visualmente hacia una concentración objetivo</div>
+        <div class="glass" style="left:6%"><div class="sol"></div></div>
+        <div class="stage-label" style="left:3%;bottom:285px">CONCENTRACIÓN ALTA</div>
+        <div class="glass" style="left:28%"><div class="sol green"></div></div>
+        <div class="stage-label" style="left:25%;bottom:285px">CONCENTRACIÓN BAJA</div>
+        <div class="mixbeam blue" style="left:38%;top:245px;transform:rotate(18deg)"></div>
+        <div class="mixbeam green" style="left:38%;top:275px;transform:rotate(-18deg)"></div>
+        <div class="mergecircle" style="right:18%;top:180px"></div>
+        <div class="bubble" style="right:24%;top:225px"></div>
+        <div class="bubble" style="right:20%;top:260px;animation-delay:.7s"></div>
+        <div class="bubble" style="right:27%;top:290px;animation-delay:1.2s"></div>
+        <div class="stir2" style="right:21%;top:225px">↻</div>
+        <div class="stage-label" style="right:10%;bottom:110px">CONCENTRACIÓN OBJETIVO</div>
+        </div>"""
+
     elif level==8:
-        html='''<div class="labstage"><div class="labtitle">🎬 Corrección por pureza antes de pesar</div>
-        <div class="labeltag" style="left:8%;bottom:180px;font-size:1.25rem">MASA PURA<br>REQUERIDA</div>
-        <div class="arrowmove" style="left:36%;bottom:130px">➜</div><div class="labeltag" style="left:48%;bottom:175px;font-size:1.2rem">÷ FRACCIÓN<br>DE PUREZA</div>
-        <div class="arrowmove" style="left:68%;bottom:130px">➜</div><div class="balance" style="right:7%"></div><div class="bench"></div></div>'''
+        html="""<div class="scene">
+        <div class="scene-title">🎬 Corrección por pureza</div>
+        <div class="scene-sub">La masa comercial se corrige antes del pesaje</div>
+        <div class="stage-label" style="left:6%;bottom:230px;font-size:1.1rem">MASA PURA REQUERIDA</div>
+        <div class="pulse-arrow" style="left:33%;bottom:160px">➜</div>
+        <div class="stage-label" style="left:45%;bottom:230px;font-size:1.1rem">÷ FRACCIÓN DE PUREZA</div>
+        <div class="pulse-arrow" style="left:68%;bottom:160px">➜</div>
+        <div class="balance" style="right:7%;bottom:80px"></div>
+        <div class="stage-label" style="right:4%;bottom:240px">MASA A PESAR</div>
+        </div>"""
+
     else:
-        html='''<div class="labstage"><div class="labtitle">🎬 Verificar antes de usar</div>
-        <div class="flask" style="left:8%"><div class="liquid green"></div></div><div class="labeltag" style="left:5%;bottom:220px">PREPARAR</div>
-        <div class="arrowmove" style="left:34%;bottom:125px">➜</div><div class="labeltag" style="left:46%;bottom:165px;font-size:1.2rem">✓ CÁLCULO<br>✓ VOLUMEN<br>✓ UNIDADES</div>
-        <div class="arrowmove" style="left:66%;bottom:125px">➜</div><div class="labeltag" style="right:6%;bottom:150px;font-size:1.2rem">🏷 ROTULAR</div><div class="bench"></div></div>'''
+        html="""<div class="scene">
+        <div class="scene-title">🎬 Verificación final de la preparación</div>
+        <div class="scene-sub">Calcular → preparar → verificar → homogeneizar → rotular</div>
+        <div class="glass tall" style="left:8%"><div class="sol green fill"></div></div>
+        <div class="stage-label" style="left:5%;bottom:320px">PREPARACIÓN</div>
+        <div class="pulse-arrow" style="left:31%;bottom:155px">➜</div>
+        <div class="stage-label" style="left:43%;bottom:235px;font-size:1.08rem">✓ CONCENTRACIÓN<br>✓ VOLUMEN FINAL<br>✓ UNIDADES</div>
+        <div class="pulse-arrow" style="left:66%;bottom:155px">➜</div>
+        <div class="stage-label" style="right:7%;bottom:225px;font-size:1.15rem">🏷️ ROTULAR<br>Y DOCUMENTAR</div>
+        </div>"""
+
     st.markdown(html,unsafe_allow_html=True)
 
 def module_nav():
@@ -412,7 +518,7 @@ def prev_next():
         goto(st.session_state.level+1)
 
 if not st.session_state.started:
-    st.markdown('<div class="hero"><h1>⚗️ TOX-PREP 2.4</h1><p>Simulador veterinario de soluciones, diluciones y cálculos aplicados a Toxicología</p></div>',unsafe_allow_html=True)
+    st.markdown('<div class="hero"><h1>⚗️ TOX-PREP 2.5</h1><p>Simulador veterinario de soluciones, diluciones y cálculos aplicados a Toxicología</p></div>',unsafe_allow_html=True)
     st.markdown('<div class="route">INTERPRETAR → CALCULAR → PREPARAR → VERIFICAR → ROTULAR → CONTEXTO TOXICOLÓGICO</div>',unsafe_allow_html=True)
     cols=st.columns(5)
     for c,(m,ls) in zip(cols,MODULES.items()):
@@ -428,7 +534,7 @@ if not st.session_state.started:
             st.warning("Escriba un nombre.")
     st.stop()
 
-st.markdown('<div class="hero"><h1>⚗️ TOX-PREP 2.4</h1><p>Laboratorio virtual veterinario de preparación aplicada a Toxicología</p></div>',unsafe_allow_html=True)
+st.markdown('<div class="hero"><h1>⚗️ TOX-PREP 2.5</h1><p>Laboratorio virtual veterinario de preparación aplicada a Toxicología</p></div>',unsafe_allow_html=True)
 c1,c2,c3=st.columns([5,1,1])
 c1.progress(st.session_state.level/TOTAL,text=f"Misión {st.session_state.level}/{TOTAL}")
 c2.metric("Puntaje",f"{st.session_state.score}/100")
@@ -670,4 +776,4 @@ elif L==10:
         st.button("Repetir laboratorio",on_click=reset,type="primary")
 
 st.divider()
-st.caption("TOX-PREP 2.4 · Recurso educativo para medicina veterinaria y toxicología. No sustituye protocolos clínicos, fichas técnicas, evaluación del paciente ni normativa institucional.")
+st.caption("TOX-PREP 2.5 · Recurso educativo para medicina veterinaria y toxicología. No sustituye protocolos clínicos, fichas técnicas, evaluación del paciente ni normativa institucional.")
